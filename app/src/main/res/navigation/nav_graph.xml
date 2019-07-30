@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.wonokoyo.erpmus.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_mainRhkFragment"
+            app:destination="@id/mainRhkFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_mainPenjualanFragment"
+            app:destination="@id/mainPenjualanFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainRhkFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.MainRhkFragment"
+        android:label="fragment_main_rhk"
+        tools:layout="@layout/fragment_main_rhk" >
+        <action
+            android:id="@+id/action_mainRhkFragment_to_entryRhkActivity"
+            app:destination="@id/entryRhkActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainPenjualanFragment"
+        android:name="com.wonokoyo.erpmus.menu.penjualan.MainPenjualanFragment"
+        android:label="fragment_main_penjualan"
+        tools:layout="@layout/fragment_main_penjualan" />
+    <activity
+        android:id="@+id/entryRhkActivity"
+        android:name="com.wonokoyo.erpmus.menu.rhk.EntryRhkActivity"
+        android:label="activity_entry_rhk"
+        tools:layout="@layout/activity_entry_rhk" />
+</navigation>

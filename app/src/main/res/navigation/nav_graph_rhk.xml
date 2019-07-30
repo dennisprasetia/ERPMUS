@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_rhk"
+    app:startDestination="@id/entryRhkMitraFragment">
+
+    <fragment
+        android:id="@+id/entryRhkMitraFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkMitraFragment"
+        android:label="fragment_entry_rhk_mitra"
+        tools:layout="@layout/fragment_entry_rhk_mitra" >
+        <action
+            android:id="@+id/action_entryRhkMitraFragment_to_entryRhkSekatFragment"
+            app:destination="@+id/entryRhkSekatFragment" >
+            <argument
+                android:name="argMitraSekat"
+                app:argType=""/>
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkSekatFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkSekatFragment"
+        android:label="fragment_entry_rhk_sekat"
+        tools:layout="@layout/fragment_entry_rhk_sekat" >
+        <action
+            android:id="@+id/action_entryRhkSekatFragment_to_entryRhkPakanKematianFragment"
+            app:destination="@id/entryRhkPakanKematianFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkPakanKematianFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkPakanKematianFragment"
+        android:label="fragment_entry_rhk_pakan_kematian"
+        tools:layout="@layout/fragment_entry_rhk_pakan_kematian" >
+        <action
+            android:id="@+id/action_entryRhkPakanKematianFragment_to_entryRhkNekropsiFragment"
+            app:destination="@id/entryRhkNekropsiFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkNekropsiFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkNekropsiFragment"
+        android:label="fragment_entry_rhk_nekropsi"
+        tools:layout="@layout/fragment_entry_rhk_nekropsi" >
+        <action
+            android:id="@+id/action_entryRhkNekropsiFragment_to_entryRhkAttachmentFragment"
+            app:destination="@id/entryRhkAttachmentFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkAttachmentFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkAttachmentFragment"
+        android:label="fragment_entry_rhk_attachment"
+        tools:layout="@layout/fragment_entry_rhk_attachment" >
+        <action
+            android:id="@+id/action_entryRhkAttachmentFragment_to_entryRhkFotoFragment"
+            app:destination="@id/entryRhkFotoFragment" />
+        <action
+            android:id="@+id/action_entryRhkAttachmentFragment_to_entryRhkVideoFragment"
+            app:destination="@id/entryRhkVideoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkFotoFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkFotoFragment"
+        android:label="fragment_entry_rhk_foto"
+        tools:layout="@layout/fragment_entry_rhk_foto" />
+    <fragment
+        android:id="@+id/entryRhkVideoFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkVideoFragment"
+        android:label="fragment_entry_rhk_video"
+        tools:layout="@layout/fragment_entry_rhk_video" />
+</navigation>
