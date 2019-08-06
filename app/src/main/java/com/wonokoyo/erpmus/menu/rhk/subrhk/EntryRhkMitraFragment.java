@@ -30,7 +30,7 @@ public class EntryRhkMitraFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_entry_rhk_mitra, container, false);
@@ -38,10 +38,23 @@ public class EntryRhkMitraFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        EntryRhkMitraFragmentDirections.Action_entryRhkMitraFragment_to_entryRhkSekatFragment actions
-                = new EntryRhkMitraFragmentDirections.Action_entryRhkMitraFragment_to_entryRhkSekatFragment();
+        Mitra mitra = new Mitra();
+        mitra.setNama("Dennis");
+        mitra.setKandang(1);
+        mitra.setPopulasi(22000);
+        mitra.setUmur(40);
+
+        final EntryRhkMitraFragmentDirections.Action_entryRhkMitraFragment_to_entryRhkSekatFragment actions =
+                EntryRhkMitraFragmentDirections.action_entryRhkMitraFragment_to_entryRhkSekatFragment();
+        actions.setArgMitra(mitra);
 
         btnBerikut = view.findViewById(R.id.btnBerikut);
+        btnBerikut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(actions);
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {

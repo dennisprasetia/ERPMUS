@@ -12,10 +12,12 @@
         tools:layout="@layout/fragment_entry_rhk_mitra" >
         <action
             android:id="@+id/action_entryRhkMitraFragment_to_entryRhkSekatFragment"
-            app:destination="@+id/entryRhkSekatFragment" >
+            app:destination="@+id/entryRhkSekatFragment">
             <argument
-                android:name="argMitraSekat"
-                app:argType=""/>
+                android:name="argMitra"
+                android:defaultValue="@null"
+                app:nullable="true"
+                app:argType="com.wonokoyo.erpmus.clasess.Mitra"/>
         </action>
     </fragment>
     <fragment

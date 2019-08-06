@@ -26,4 +26,10 @@
     <string name="populasi">Populasi (ekor)</string>
     <string name="umur">Umur (hari)</string>
     <string name="berikut">Berikut</string>
+    <string name="angka">Angka</string>
+    <string name="bb_rata_gr">BB Rata (gr)</string>
+    <string name="jumlah_sekat">Jumlah Sekat</string>
+    <string name="img_back_desc">Back To Previous Stage</string>
+    <string name="add">Add</string>
+    <string name="user_account_setting">User Account Setting</string>
 </resources>
