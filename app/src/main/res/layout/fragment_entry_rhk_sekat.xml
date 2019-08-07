@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="41dp" />
+            app:layout_constraintGuide_percent="0.1"/>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
@@ -43,6 +43,7 @@
                 app:layout_constraintGuide_percent="0.85" />
 
             <ImageView
+                android:id="@+id/imgBackSekat"
                 android:layout_width="45dp"
                 android:layout_height="45dp"
                 android:layout_marginStart="8dp"

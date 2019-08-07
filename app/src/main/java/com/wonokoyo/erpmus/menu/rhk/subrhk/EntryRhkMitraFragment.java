@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Mitra;
@@ -22,6 +23,7 @@ import com.wonokoyo.erpmus.classes.Mitra;
 public class EntryRhkMitraFragment extends Fragment {
 
     private Button btnBerikut;
+    private ImageView imgBack;
 
     private OnFragmentInteractionListener mListener;
 
@@ -48,7 +50,7 @@ public class EntryRhkMitraFragment extends Fragment {
                 EntryRhkMitraFragmentDirections.action_entryRhkMitraFragment_to_entryRhkSekatFragment();
         actions.setArgMitra(mitra);
 
-        btnBerikut = view.findViewById(R.id.btnBerikut);
+        btnBerikut = view.findViewById(R.id.btnBerikutMitra);
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

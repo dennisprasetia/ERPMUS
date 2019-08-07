@@ -32,4 +32,8 @@
     <string name="img_back_desc">Back To Previous Stage</string>
     <string name="add">Add</string>
     <string name="user_account_setting">User Account Setting</string>
+    <string name="penerimaan_pakan">Penerimaan Pakan</string>
+    <string name="kematian_ayam">Kematian Ayam</string>
+    <string name="penerimaan_pakan_zak">Penerimaan Pakan (Zak)</string>
+    <string name="sisa_pakan_di_kandang_zak">Sisa Pakan di Kandang (Zak)</string>
 </resources>
