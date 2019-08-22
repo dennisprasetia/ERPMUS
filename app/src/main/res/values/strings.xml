@@ -36,4 +36,7 @@
     <string name="kematian_ayam">Kematian Ayam</string>
     <string name="penerimaan_pakan_zak">Penerimaan Pakan (Zak)</string>
     <string name="sisa_pakan_di_kandang_zak">Sisa Pakan di Kandang (Zak)</string>
+	<string name="nomor">Nomor</string>
+	<string name="angka_kematian_ekor">Angka Kematian (ekor)</string>
+	<string name="keterangan">Keterangan</string>
 </resources>

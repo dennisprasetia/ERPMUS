@@ -1,8 +1,6 @@
 package com.wonokoyo.erpmus.classes;
 
-import java.io.Serializable;
-
-public class Mitra implements Serializable {
+public class Mitra {
     private String nama;
     private int kandang;
     private int populasi;

@@ -19,6 +19,7 @@ import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Mitra;
+import com.wonokoyo.erpmus.classes.Rhk;
 
 public class EntryRhkMitraFragment extends Fragment {
 
@@ -46,15 +47,24 @@ public class EntryRhkMitraFragment extends Fragment {
         mitra.setPopulasi(22000);
         mitra.setUmur(40);
 
-        final EntryRhkMitraFragmentDirections.Action_entryRhkMitraFragment_to_entryRhkSekatFragment actions =
-                EntryRhkMitraFragmentDirections.action_entryRhkMitraFragment_to_entryRhkSekatFragment();
-        actions.setArgMitra(mitra);
+        final Rhk rhk = new Rhk();
+        rhk.setMitra(mitra);
 
         btnBerikut = view.findViewById(R.id.btnBerikutMitra);
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EntryRhkMitraFragmentDirections.ViewSekatFragment actions =
+                        EntryRhkMitraFragmentDirections.viewSekatFragment(rhk);
                 Navigation.findNavController(view).navigate(actions);
+            }
+        });
+
+        imgBack = view.findViewById(R.id.imgBackMitra);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).popBackStack();
             }
         });
     }
