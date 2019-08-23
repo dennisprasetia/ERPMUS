@@ -9,14 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wonokoyo.erpmus.R;
-
 public class MainPenjualanFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
     public MainPenjualanFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -27,7 +25,6 @@ public class MainPenjualanFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

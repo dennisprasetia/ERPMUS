@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
@@ -25,11 +26,12 @@ public class EntryRhkMitraFragment extends Fragment {
 
     private Button btnBerikut;
     private ImageView imgBack;
+    private ConstraintLayout clTitle;
 
     private OnFragmentInteractionListener mListener;
 
     public EntryRhkMitraFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -67,10 +69,14 @@ public class EntryRhkMitraFragment extends Fragment {
                 Navigation.findNavController(view).popBackStack();
             }
         });
+
+//        clTitle = view.findViewById(R.id.clMitra);
+//        LayoutInflater inflater = LayoutInflater.from(this.getContext());
+//        View title = inflater.inflate(R.layout.isi_sekat, null, false);
+//        clTitle.addView(title);
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

@@ -27,16 +27,16 @@
     </fragment>
     <fragment
         android:id="@+id/mainRhkFragment"
-        android:name="com.wonokoyo.erpmus.menu.rhk.MainRhkFragment"
+        android:name="com.wonokoyo.erpmus.MainRhkFragment"
         android:label="fragment_main_rhk"
-        tools:layout="@layout/fragment_main_rhk" >
+        tools:layout="@layout/fragment_main_rhk">
         <action
             android:id="@+id/action_mainRhkFragment_to_entryRhkActivity"
             app:destination="@id/entryRhkActivity" />
     </fragment>
     <fragment
         android:id="@+id/mainPenjualanFragment"
-        android:name="com.wonokoyo.erpmus.menu.penjualan.MainPenjualanFragment"
+        android:name="com.wonokoyo.erpmus.MainPenjualanFragment"
         android:label="fragment_main_penjualan"
         tools:layout="@layout/fragment_main_penjualan" />
     <activity

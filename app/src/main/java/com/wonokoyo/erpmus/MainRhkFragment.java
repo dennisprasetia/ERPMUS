@@ -12,17 +12,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
-import com.wonokoyo.erpmus.R;
+import android.widget.ImageView;
 
 public class MainRhkFragment extends Fragment {
 
     private Button btnEntryRhk;
+    private ImageView imgBack;
 
     private OnFragmentInteractionListener mListener;
 
     public MainRhkFragment() {
-        // Required empty public constructor
+
     }
 
     @Override
@@ -37,17 +37,17 @@ public class MainRhkFragment extends Fragment {
         btnEntryRhk = view.findViewById(R.id.btnEntryRhk);
         btnEntryRhk.setOnClickListener(Navigation.createNavigateOnClickListener(
                 R.id.action_mainRhkFragment_to_entryRhkActivity));
-    }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        imgBack = view.findViewById(R.id.imgBackMitra);
+        imgBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).popBackStack();
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

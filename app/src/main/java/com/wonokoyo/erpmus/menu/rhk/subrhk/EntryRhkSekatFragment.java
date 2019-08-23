@@ -34,7 +34,7 @@ public class EntryRhkSekatFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        imgBack = view.findViewById(R.id.imgBackSekat);
+        imgBack = view.findViewById(R.id.imgBackPakanKematian);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -27,6 +27,7 @@
             app:layout_constraintGuide_percent="0.9" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/clMitra"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:background="#114D91"
@@ -110,121 +111,131 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent="0.9" />
 
-        <LinearLayout
-            android:id="@+id/llFormMitra"
+        <ScrollView
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginTop="16dp"
-            android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toBottomOf="@id/guideline11"
             app:layout_constraintEnd_toStartOf="@+id/guideline9"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/guideline6"
-            app:layout_constraintTop_toTopOf="@+id/guideline10">
+            app:layout_constraintTop_toTopOf="@+id/guideline10"
+            app:layout_constraintVertical_bias="1.0">
 
-            <TextView
+            <LinearLayout
+                android:id="@+id/llFormMitra"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:text="@string/mitra"
-                android:textSize="22sp" />
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/etNamaMitra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginEnd="11dp"
-                android:hint="@string/empty"
-                android:importantForAutofill="no"
-                android:inputType="text|textAutoComplete"
-                android:labelFor="@id/llFormMitra"
-                android:textSize="22sp"
-                tools:targetApi="O" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/mitra"
+                    android:textSize="22sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:text="@string/kandang"
-                android:textSize="22sp" />
+                <EditText
+                    android:id="@+id/etNamaMitra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginEnd="11dp"
+                    android:hint="@string/empty"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textAutoComplete"
+                    android:labelFor="@id/llFormMitra"
+                    android:textSize="22sp"
+                    tools:targetApi="O" />
 
-            <EditText
-                android:id="@+id/etKandangMitra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginEnd="11dp"
-                android:hint="@string/empty"
-                android:importantForAutofill="no"
-                android:inputType="text|textAutoComplete"
-                android:labelFor="@id/llFormMitra"
-                android:textSize="22sp"
-                tools:targetApi="O" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/kandang"
+                    android:textSize="22sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:text="@string/populasi"
-                android:textSize="22sp" />
+                <EditText
+                    android:id="@+id/etKandangMitra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginEnd="11dp"
+                    android:hint="@string/empty"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textAutoComplete"
+                    android:labelFor="@id/llFormMitra"
+                    android:textSize="22sp"
+                    tools:targetApi="O" />
 
-            <EditText
-                android:id="@+id/etPopulasiKandangMitra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginEnd="11dp"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusableInTouchMode="false"
-                android:hint="@string/empty"
-                android:importantForAutofill="no"
-                android:inputType="text|textAutoComplete"
-                android:labelFor="@id/llFormMitra"
-                android:textSize="22sp"
-                tools:targetApi="O" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/populasi"
+                    android:textSize="22sp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingStart="15dp"
-                android:paddingEnd="15dp"
-                android:text="@string/umur"
-                android:textSize="22sp" />
+                <EditText
+                    android:id="@+id/etPopulasiKandangMitra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginEnd="11dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/empty"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textAutoComplete"
+                    android:labelFor="@id/llFormMitra"
+                    android:textSize="22sp"
+                    tools:targetApi="O" />
 
-            <EditText
-                android:id="@+id/etUmurPopulasiKandangMitra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="11dp"
-                android:layout_marginEnd="11dp"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusableInTouchMode="false"
-                android:hint="@string/empty"
-                android:importantForAutofill="no"
-                android:inputType="text|textAutoComplete"
-                android:labelFor="@id/llFormMitra"
-                android:textSize="22sp"
-                tools:targetApi="O" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
+                    android:text="@string/umur"
+                    android:textSize="22sp" />
 
-        </LinearLayout>
+                <EditText
+                    android:id="@+id/etUmurPopulasiKandangMitra"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginEnd="11dp"
+                    android:clickable="false"
+                    android:cursorVisible="false"
+                    android:focusableInTouchMode="false"
+                    android:hint="@string/empty"
+                    android:importantForAutofill="no"
+                    android:inputType="text|textAutoComplete"
+                    android:labelFor="@id/llFormMitra"
+                    android:textSize="22sp"
+                    tools:targetApi="O" />
 
-        <Button
-            android:id="@+id/btnBerikutMitra"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:drawableEnd="@drawable/ic_next_white"
-            android:text="@string/berikut"
-            android:textAlignment="textStart"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toStartOf="@+id/guideline9"
-            app:layout_constraintTop_toTopOf="@+id/guideline11" />
+                <Button
+                    android:id="@+id/btnBerikutMitra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="11dp"
+                    android:layout_marginBottom="20dp"
+                    android:drawableEnd="@drawable/ic_next_white"
+                    android:text="@string/berikut"
+                    android:textSize="22sp" />
+
+            </LinearLayout>
+
+        </ScrollView>
+
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

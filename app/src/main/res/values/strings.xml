@@ -39,4 +39,7 @@
 	<string name="nomor">Nomor</string>
 	<string name="angka_kematian_ekor">Angka Kematian (ekor)</string>
 	<string name="keterangan">Keterangan</string>
+	<string name="check_list_nekropsi">Check List Nekropsi</string>
+    <string name="parameter">Parameter</string>
+    <string name="check">Check</string>
 </resources>
