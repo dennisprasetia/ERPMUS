@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="match_parent"
-	android:layout_height="match_parent">
+	android:layout_height="wrap_content"
+	android:orientation="vertical">
 
 	<androidx.cardview.widget.CardView
 		android:layout_width="match_parent"
@@ -24,11 +23,11 @@
 				android:textColor="@android:color/black"
 				android:textSize="18sp" />
 
-			<com.google.android.material.chip.Chip
-				android:id="@+id/chip"
-				android:layout_width="wrap_content"
+			<CheckBox
+				android:id="@+id/cbNekropsi"
+				android:layout_width="0dp"
 				android:layout_height="match_parent"
-				android:layout_weight="0.2" />
+				android:layout_weight="0.3"/>
 
 			<EditText
 				android:id="@+id/etKeterangan"
@@ -36,10 +35,10 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				android:ems="10"
-				android:inputType="textPersonName"
+				android:hint="@string/empty"
 				android:importantForAutofill="no"
-				android:labelFor="@id/txtParameter"
-				android:hint="@string/empty"/>
+				android:inputType="textPersonName"
+				android:labelFor="@id/txtParameter" />
 
 		</LinearLayout>
 	</androidx.cardview.widget.CardView>

@@ -1,12 +1,14 @@
 package com.wonokoyo.erpmus.util;
 
+import androidx.annotation.NonNull;
+
 import com.wonokoyo.erpmus.classes.Nekropsi;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class EnumNekropsi {
-    public final static List<String> listStringNekropsi() {
+    public static List<String> listStringNekropsi() {
         List<String> list = new ArrayList<>();
         list.add("Conjungtivitis");
         list.add("Trachea radang");
@@ -30,7 +32,7 @@ public class EnumNekropsi {
         return list;
     }
 
-    public final static List<Nekropsi> listNekropsi() {
+    public static List<Nekropsi> listNekropsi() {
         List<Nekropsi> list = new ArrayList<>();
 
         for (int a = 0; a < listStringNekropsi().size(); a++) {
@@ -43,5 +45,16 @@ public class EnumNekropsi {
         }
 
         return list;
+    }
+
+    public static String showListInString() {
+        String result = "";
+
+        for (int a = 0; a < listNekropsi().size(); a++) {
+            result = result + "Nama : " + listNekropsi().get(a).getNama() + ", Status : " +
+                    listNekropsi().get(a).getStatus() + "/n";
+        }
+
+        return result;
     }
 }

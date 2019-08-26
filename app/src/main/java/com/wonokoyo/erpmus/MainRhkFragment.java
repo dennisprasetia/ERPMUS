@@ -26,7 +26,7 @@ public class MainRhkFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_main_rhk, container, false);
@@ -37,14 +37,6 @@ public class MainRhkFragment extends Fragment {
         btnEntryRhk = view.findViewById(R.id.btnEntryRhk);
         btnEntryRhk.setOnClickListener(Navigation.createNavigateOnClickListener(
                 R.id.action_mainRhkFragment_to_entryRhkActivity));
-
-        imgBack = view.findViewById(R.id.imgBackMitra);
-        imgBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).popBackStack();
-            }
-        });
     }
 
     public interface OnFragmentInteractionListener {

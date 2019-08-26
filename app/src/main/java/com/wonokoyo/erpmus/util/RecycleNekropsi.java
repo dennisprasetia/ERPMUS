@@ -3,6 +3,7 @@ package com.wonokoyo.erpmus.util;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -10,16 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.chip.Chip;
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Nekropsi;
+
+import java.util.List;
 
 public class RecycleNekropsi extends RecyclerView.Adapter<RecycleNekropsi.RecycleViewHolder> {
 
     private FragmentManager mFragmentManager;
+    private List<Nekropsi> mNekropsis;
 
-    public RecycleNekropsi(FragmentManager fragmentManager) {
+    public RecycleNekropsi(List<Nekropsi> nekropsis, FragmentManager fragmentManager) {
         this.mFragmentManager = fragmentManager;
+        this.mNekropsis = nekropsis;
     }
 
     @NonNull
@@ -31,31 +35,39 @@ public class RecycleNekropsi extends RecyclerView.Adapter<RecycleNekropsi.Recycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecycleViewHolder holder, int position) {
-        Nekropsi mNekropsi = EnumNekropsi.listNekropsi().get(position);
+    public void onBindViewHolder(@NonNull final RecycleViewHolder holder, int position) {
+        final Nekropsi mNekropsi = mNekropsis.get(position);
 
         holder.txtParameter.setText(mNekropsi.getNama());
-        if (mNekropsi.getStatus() == 1) {
-            holder.chip.setChecked(true);
-        }
+        holder.cbNekropsi.setChecked(false);
+        holder.cbNekropsi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (holder.cbNekropsi.isChecked()) {
+                    mNekropsi.setStatus(1);
+                } else {
+                    mNekropsi.setStatus(0);
+                }
+            }
+        });
         holder.etKeterangan.setText(mNekropsi.getKeterangan());
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mNekropsis.size();
     }
 
     public class RecycleViewHolder extends RecyclerView.ViewHolder {
         TextView txtParameter;
-        Chip chip;
+        CheckBox cbNekropsi;
         EditText etKeterangan;
 
-        public RecycleViewHolder(@NonNull View itemView) {
+        private RecycleViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtParameter = itemView.findViewById(R.id.txtParameter);
-            chip = itemView.findViewById(R.id.chip);
+            cbNekropsi = itemView.findViewById(R.id.cbNekropsi);
             etKeterangan = itemView.findViewById(R.id.etKeterangan);
         }
     }
