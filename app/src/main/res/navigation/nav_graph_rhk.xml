@@ -12,7 +12,11 @@
         tools:layout="@layout/fragment_entry_rhk_mitra" >
         <action
             android:id="@+id/viewSekatFragment"
-            app:destination="@+id/entryRhkSekatFragment"/>
+            app:destination="@+id/entryRhkSekatFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/entryRhkSekatFragment"
@@ -21,7 +25,11 @@
         tools:layout="@layout/fragment_entry_rhk_sekat">
         <action
             android:id="@+id/viewPakanKematianFragment"
-            app:destination="@id/entryRhkPakanKematianFragment" />
+            app:destination="@id/entryRhkPakanKematianFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="rhk"
             app:argType="com.wonokoyo.erpmus.classes.Rhk" />
@@ -33,7 +41,11 @@
         tools:layout="@layout/fragment_entry_rhk_pakan_kematian" >
         <action
             android:id="@+id/viewNekropsiFragment"
-            app:destination="@id/entryRhkNekropsiFragment" />
+            app:destination="@id/entryRhkNekropsiFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="rhk"
             app:argType="com.wonokoyo.erpmus.classes.Rhk" />
@@ -45,7 +57,11 @@
         tools:layout="@layout/fragment_entry_rhk_nekropsi" >
         <action
             android:id="@+id/viewAttachmentFragment"
-            app:destination="@id/entryRhkAttachmentFragment" />
+            app:destination="@id/entryRhkAttachmentFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <argument
             android:name="rhk"
             app:argType="com.wonokoyo.erpmus.classes.Rhk" />
@@ -57,10 +73,17 @@
         tools:layout="@layout/fragment_entry_rhk_attachment" >
         <action
             android:id="@+id/viewFotoFragment"
-            app:destination="@id/entryRhkFotoFragment" />
+            app:destination="@id/entryRhkFotoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_down"
+            app:popExitAnim="@anim/slide_out_up" />
         <action
             android:id="@+id/viewVideoFragment"
-            app:destination="@id/entryRhkVideoFragment" />
+            app:destination="@id/entryRhkVideoFragment"
+            app:enterAnim="@anim/slide_in_up"
+            app:exitAnim="@anim/slide_out_down"
+            app:popEnterAnim="@anim/slide_in_down"
+            app:popExitAnim="@anim/slide_out_up" />
     </fragment>
     <fragment
         android:id="@+id/entryRhkFotoFragment"

@@ -42,4 +42,7 @@
 	<string name="check_list_nekropsi">Check List Nekropsi</string>
     <string name="parameter">Parameter</string>
     <string name="check">Check</string>
+	<string name="button_photo">Button for take a photo</string>
+    <string name="button_video">Button for take a video</string>
+	<string name="capture">Capture</string>
 </resources>

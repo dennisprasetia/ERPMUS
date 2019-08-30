@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.1" />
+            app:layout_constraintGuide_begin="70dp" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clPakanKematian."
@@ -116,28 +116,28 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.35" />
+            app:layout_constraintGuide_begin="200dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline25"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.5" />
+            app:layout_constraintGuide_begin="270dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline12"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.75" />
+            app:layout_constraintGuide_begin="400dp" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline26"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            app:layout_constraintGuide_percent="0.9" />
+            app:layout_constraintGuide_begin="500dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -180,14 +180,16 @@
             android:id="@+id/btnBerikutPakan"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="10dp"
             android:drawableEnd="@drawable/ic_next_white"
             android:text="@string/berikut"
             android:textAlignment="textStart"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/textView4" />
+            app:layout_constraintEnd_toEndOf="@+id/textView4"
+            app:layout_constraintTop_toTopOf="@+id/guideline26"
+            app:layout_constraintVertical_bias="0.963" />
 
         <TextView
             android:id="@+id/textView5"
@@ -320,6 +322,8 @@
             android:layout_marginBottom="8dp"
             android:ems="10"
             android:inputType="textPersonName"
+            android:autofillHints="@string/empty"
+            android:hint="@string/empty"
             app:layout_constraintBottom_toTopOf="@+id/guideline26"
             app:layout_constraintEnd_toStartOf="@+id/guideline23"
             app:layout_constraintHorizontal_bias="0.5"
