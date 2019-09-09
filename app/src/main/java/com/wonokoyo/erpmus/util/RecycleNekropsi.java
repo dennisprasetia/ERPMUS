@@ -39,16 +39,6 @@ public class RecycleNekropsi extends RecyclerView.Adapter<RecycleNekropsi.Recycl
         final Nekropsi mNekropsi = mNekropsis.get(position);
 
         holder.txtParameter.setText(mNekropsi.getNama());
-        holder.cbNekropsi.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (holder.cbNekropsi.isChecked()) {
-                    mNekropsi.setStatus(1);
-                } else {
-                    mNekropsi.setStatus(0);
-                }
-            }
-        });
         holder.etKeterangan.setText(mNekropsi.getKeterangan());
     }
 

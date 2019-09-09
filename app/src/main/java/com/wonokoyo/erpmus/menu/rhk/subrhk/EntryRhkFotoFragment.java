@@ -20,10 +20,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -48,6 +46,8 @@ import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -113,8 +113,8 @@ public class EntryRhkFotoFragment extends Fragment {
         assert textureView != null;
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
             @Override
-            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-                openCamera();
+            public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+                openCamera(width, height);
             }
 
             @Override
@@ -148,25 +148,53 @@ public class EntryRhkFotoFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    // mengatur dimensi ukuran preview camera2
+    public static class CompareSizeByArea implements Comparator<Size> {
+
+        @Override
+        public int compare(Size lhs, Size rhs) {
+            return Long.signum((long) lhs.getWidth() * lhs.getHeight() /
+                    (long) rhs.getWidth() * rhs.getHeight());
+        }
+    }
+
+    public static Size chooseOptimalSize(Size[] choices, int width, int height) {
+        List<Size> bigEnough = new ArrayList<>();
+        for (Size option : choices) {
+            if (option.getHeight() == option.getWidth() * height / width && option.getWidth() >= width
+                && option.getHeight() >= height) {
+                bigEnough.add(option);
+            }
+        }
+
+        if (bigEnough.size() > 0) {
+            return Collections.min(bigEnough, new CompareSizeByArea());
+        } else {
+            return choices[0];
+        }
+    }
+
+    // ambil gambar dari preview camera2
     public void takePicture() {
         if (cameraDevice == null) {
             return;
         }
+
         CameraManager manager = (CameraManager) this.getContext().getSystemService(Context.CAMERA_SERVICE);
         try {
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
-            Size[] jpegSize = null;
-            if (characteristics == null) {
-                jpegSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-                        .getOutputSizes(ImageFormat.JPEG);
-            }
+//            Size[] jpegSize = null;
+//            if (characteristics == null) {
+//                jpegSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+//                        .getOutputSizes(ImageFormat.JPEG);
+//            }
 
-            int width = 640;
-            int height = 480;
-            if (jpegSize != null && jpegSize.length > 0) {
-                width = jpegSize[0].getWidth();
-                height = jpegSize[0].getHeight();
-            }
+            int width = imageDimention.getWidth();
+            int height = imageDimention.getHeight();
+//            if (jpegSize != null && jpegSize.length > 0) {
+//                width = jpegSize[0].getWidth();
+//                height = jpegSize[0].getHeight();
+//            }
 
             final ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurface = new ArrayList<>();
@@ -181,7 +209,7 @@ public class EntryRhkFotoFragment extends Fragment {
             int rotation = this.getActivity().getWindowManager().getDefaultDisplay().getRotation();
             captureBuilder.set(CaptureRequest.JPEG_ORIENTATION, ORIENTATION.get(rotation));
 
-            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM + "/")
+            file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Camera/"
                     + UUID.randomUUID().toString() + ".jpg");
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
@@ -247,6 +275,7 @@ public class EntryRhkFotoFragment extends Fragment {
         }
     }
 
+    // menyiapkan preview camera2
     private void createCameraPreview() {
         try {
             SurfaceTexture texture = textureView.getSurfaceTexture();
@@ -288,14 +317,14 @@ public class EntryRhkFotoFragment extends Fragment {
         }
     }
 
-    private void openCamera() {
+    private void openCamera(int width, int height) {
         CameraManager manager = (CameraManager) this.getContext().getSystemService(Context.CAMERA_SERVICE);
         try {
             cameraId = manager.getCameraIdList()[0];
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
-            imageDimention = map.getOutputSizes(SurfaceTexture.class)[0];
+            imageDimention = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height);
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE},
@@ -310,8 +339,8 @@ public class EntryRhkFotoFragment extends Fragment {
 
     TextureView.SurfaceTextureListener textureListener = new TextureView.SurfaceTextureListener() {
         @Override
-        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int i, int i1) {
-            openCamera();
+        public void onSurfaceTextureAvailable(SurfaceTexture surfaceTexture, int width, int height) {
+            openCamera(width, height);
         }
 
         @Override
@@ -344,7 +373,7 @@ public class EntryRhkFotoFragment extends Fragment {
         super.onResume();
         startBackgroundThread();
         if (textureView.isAvailable())
-            openCamera();
+            openCamera(textureView.getWidth(), textureView.getHeight());
         else
             textureView.setSurfaceTextureListener(textureListener);
     }

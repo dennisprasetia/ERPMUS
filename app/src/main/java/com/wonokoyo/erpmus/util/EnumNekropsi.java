@@ -37,6 +37,7 @@ public class EnumNekropsi {
 
         for (int a = 0; a < listStringNekropsi().size(); a++) {
             Nekropsi nekropsi = new Nekropsi();
+            nekropsi.setId(a + 1);
             nekropsi.setNama(listStringNekropsi().get(a));
             nekropsi.setStatus(0);
             nekropsi.setKeterangan("");

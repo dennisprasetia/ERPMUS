@@ -1,12 +1,21 @@
 package com.wonokoyo.erpmus.classes;
 
 public class Nekropsi {
+    private int id;
     private String nama;
     private int status;
     private String keterangan;
 
     public Nekropsi() {
 
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNama() {
