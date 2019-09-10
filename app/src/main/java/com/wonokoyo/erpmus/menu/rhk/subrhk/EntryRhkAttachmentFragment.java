@@ -39,6 +39,9 @@ public class EntryRhkAttachmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         imgBtnPhoto = view.findViewById(R.id.imgBtnPhoto);
         imgBtnPhoto.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewFotoFragment));
+
+        imgBtnVideo = view.findViewById(R.id.imgBtnVideo);
+        imgBtnVideo.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewVideoFragment));
     }
 
     public interface OnFragmentInteractionListener {

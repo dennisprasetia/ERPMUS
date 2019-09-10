@@ -69,7 +69,7 @@ public class EntryRhkFotoFragment extends Fragment {
     }
 
     private String cameraId;
-    private CameraDevice cameraDevice;
+    private CameraDevice mCameraDevice;
     private CameraCaptureSession mCameraCaptureSession;
     private CaptureRequest.Builder captureRequestBuilder;
     private Size imageDimention;
@@ -83,7 +83,7 @@ public class EntryRhkFotoFragment extends Fragment {
     CameraDevice.StateCallback stateCallback = new CameraDevice.StateCallback() {
         @Override
         public void onOpened(@NonNull CameraDevice camera) {
-            cameraDevice = camera;
+            mCameraDevice = camera;
             createCameraPreview();
         }
 
@@ -150,7 +150,6 @@ public class EntryRhkFotoFragment extends Fragment {
 
     // mengatur dimensi ukuran preview camera2
     public static class CompareSizeByArea implements Comparator<Size> {
-
         @Override
         public int compare(Size lhs, Size rhs) {
             return Long.signum((long) lhs.getWidth() * lhs.getHeight() /
@@ -176,13 +175,13 @@ public class EntryRhkFotoFragment extends Fragment {
 
     // ambil gambar dari preview camera2
     public void takePicture() {
-        if (cameraDevice == null) {
+        if (mCameraDevice == null) {
             return;
         }
 
         CameraManager manager = (CameraManager) this.getContext().getSystemService(Context.CAMERA_SERVICE);
         try {
-            CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraDevice.getId());
+            CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraDevice.getId());
 //            Size[] jpegSize = null;
 //            if (characteristics == null) {
 //                jpegSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
@@ -201,7 +200,7 @@ public class EntryRhkFotoFragment extends Fragment {
             outputSurface.add(reader.getSurface());
             outputSurface.add(new Surface(textureView.getSurfaceTexture()));
 
-            final CaptureRequest.Builder captureBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            final CaptureRequest.Builder captureBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
             captureBuilder.addTarget(reader.getSurface());
             captureBuilder.set(CaptureRequest.CONTROL_MODE, CameraMetadata.CONTROL_MODE_AUTO);
 
@@ -255,7 +254,7 @@ public class EntryRhkFotoFragment extends Fragment {
                 }
             };
 
-            cameraDevice.createCaptureSession(outputSurface, new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createCaptureSession(outputSurface, new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
                     try {
@@ -282,12 +281,12 @@ public class EntryRhkFotoFragment extends Fragment {
             assert texture != null;
             texture.setDefaultBufferSize(imageDimention.getWidth(), imageDimention.getHeight());
             Surface surface = new Surface(texture);
-            captureRequestBuilder = cameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
+            captureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             captureRequestBuilder.addTarget(surface);
-            cameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createCaptureSession(Arrays.asList(surface), new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
-                    if (cameraDevice == null) {
+                    if (mCameraDevice == null) {
                         return;
                     }
                     mCameraCaptureSession = cameraCaptureSession;
@@ -305,7 +304,7 @@ public class EntryRhkFotoFragment extends Fragment {
     }
 
     private void updatePreview() {
-        if (cameraDevice == null) {
+        if (mCameraDevice == null) {
             Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
         }
 
