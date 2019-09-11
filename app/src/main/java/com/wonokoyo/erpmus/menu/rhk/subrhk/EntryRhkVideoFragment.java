@@ -11,6 +11,7 @@ import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.util.Size;
@@ -36,17 +38,23 @@ import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 public class EntryRhkVideoFragment extends Fragment {
 
     // variable for video
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
+    private static final int REQUEST_STORAGE_PERMISSION_RESULT = 1;
     private ImageButton imgBtnRecord;
+    private boolean isRecording = false;
     private TextureView mTextureView;
     private TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
         @Override
@@ -76,7 +84,17 @@ public class EntryRhkVideoFragment extends Fragment {
         @Override
         public void onOpened(@NonNull CameraDevice cameraDevice) {
             mCameraDevice = cameraDevice;
-            startPreview();
+            if (isRecording) {
+                try {
+                    createVideoFilename();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                startRecording();
+                mMediaRecorder.start();
+            } else {
+                startPreview();
+            }
         }
 
         @Override
@@ -96,8 +114,15 @@ public class EntryRhkVideoFragment extends Fragment {
     private Handler mBackgroundHandler;
     private String mCameraId;
     private Size mPreviewSize;
+    private Size mVideoSize;
+    private int mTotalRotation;
     private CaptureRequest.Builder mCaptureRequestBuilder;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
+
+    private MediaRecorder mMediaRecorder;
+
+    private File mVideoFolder;
+    private String mVideoFilename;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -129,6 +154,26 @@ public class EntryRhkVideoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mTextureView = view.findViewById(R.id.textureVideo);
+
+        imgBtnRecord = view.findViewById(R.id.imgBtnRecord);
+        imgBtnRecord.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (isRecording) {
+                    isRecording = false;
+                    imgBtnRecord.setImageResource(R.drawable.ic_videocam);
+                    mMediaRecorder.stop();
+                    mMediaRecorder.reset();
+                    startPreview();
+                } else {
+                    checkWriteStoragePermission();
+                }
+            }
+        });
+
+        createVideoFolder();
+
+        mMediaRecorder = new MediaRecorder();
     }
 
     @Override
@@ -137,6 +182,19 @@ public class EntryRhkVideoFragment extends Fragment {
         if (requestCode == REQUEST_CAMERA_PERMISSION_RESULT) {
             if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 Toast.makeText(getContext(), "Camera will not run without camera services", Toast.LENGTH_SHORT).show();
+            }
+        }
+        if (requestCode == REQUEST_STORAGE_PERMISSION_RESULT) {
+            if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
+                isRecording = true;
+                imgBtnRecord.setImageResource(R.drawable.ic_videocam_red);
+                try {
+                    createVideoFilename();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(getContext(), "Apps need to able to save video", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -174,8 +232,8 @@ public class EntryRhkVideoFragment extends Fragment {
 
                 StreamConfigurationMap map = cameraCharacteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
                 int deviceOrientation = getActivity().getWindowManager().getDefaultDisplay().getRotation();
-                int totalOrientation = sensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
-                boolean swapRotation = totalOrientation == 90 || totalOrientation == 270;
+                mTotalRotation = sensorToDeviceRotation(cameraCharacteristics, deviceOrientation);
+                boolean swapRotation = mTotalRotation == 90 || mTotalRotation == 270;
                 int rotationWidth = width;
                 int rotationHeight = height;
                 if (swapRotation) {
@@ -183,6 +241,7 @@ public class EntryRhkVideoFragment extends Fragment {
                     rotationHeight = width;
                 }
                 mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotationWidth, rotationHeight);
+                mVideoSize = chooseOptimalSize(map.getOutputSizes(MediaRecorder.class), rotationWidth, rotationHeight);
 
                 mCameraId = cameraId;
                 return;
@@ -203,12 +262,46 @@ public class EntryRhkVideoFragment extends Fragment {
                     if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                         Toast.makeText(getContext(), "Video recorder required access to camera", Toast.LENGTH_SHORT).show();
                     }
-                    requestPermissions(new String[] {Manifest.permission.CAMERA}, REQUEST_CAMERA_PERMISSION_RESULT);
+                    requestPermissions(new String[] {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                            Manifest.permission.RECORD_AUDIO}, REQUEST_CAMERA_PERMISSION_RESULT);
                 }
             } else {
                 cameraManager.openCamera(mCameraId, mCameraDeviceStateCallback, mBackgroundHandler);
             }
         } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void startRecording() {
+        try {
+            setupMediaRecorder();
+
+            SurfaceTexture surfaceTexture = mTextureView.getSurfaceTexture();
+            surfaceTexture.setDefaultBufferSize((int) (mPreviewSize.getWidth() * 1.2), (int) (mPreviewSize.getHeight() * 1.2));
+            Surface previewSurface = new Surface(surfaceTexture);
+            Surface recordSurface = mMediaRecorder.getSurface();
+            mCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_RECORD);
+            mCaptureRequestBuilder.addTarget(previewSurface);
+            mCaptureRequestBuilder.addTarget(recordSurface);
+
+            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface, recordSurface), new CameraCaptureSession.StateCallback() {
+                @Override
+                public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+                    try {
+                        cameraCaptureSession.setRepeatingRequest(
+                                mCaptureRequestBuilder.build(), null, null);
+                    } catch (CameraAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onConfigureFailed(@NonNull CameraCaptureSession cameraCaptureSession) {
+
+                }
+            }, null);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -287,6 +380,69 @@ public class EntryRhkVideoFragment extends Fragment {
         } else {
             return choices[0];
         }
+    }
+
+    private void createVideoFolder() {
+        File movieFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
+        mVideoFolder = new File(movieFile, "camera2VideoImage");
+        if (!mVideoFolder.exists()) {
+            mVideoFolder.mkdirs();
+        }
+    }
+
+    private File createVideoFilename() throws IOException {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String prepend = "Video_" + timestamp;
+        File videoFile = File.createTempFile(prepend, ".mp4", mVideoFolder);
+        mVideoFilename = videoFile.getAbsolutePath();
+
+        return videoFile;
+    }
+
+    private void checkWriteStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                == PackageManager.PERMISSION_GRANTED) {
+                isRecording = true;
+                imgBtnRecord.setImageResource(R.drawable.ic_videocam_red);
+                try {
+                    createVideoFilename();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                startRecording();
+                mMediaRecorder.start();
+            } else {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    Toast.makeText(getContext(), "Apps need to be able to save videos", Toast.LENGTH_SHORT).show();
+                }
+                requestPermissions(new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION_RESULT);
+            }
+        } else {
+            isRecording = true;
+            imgBtnRecord.setImageResource(R.drawable.ic_videocam_red);
+            try {
+                createVideoFilename();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            startRecording();
+            mMediaRecorder.start();
+        }
+    }
+
+    private void setupMediaRecorder() throws IOException {
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.SURFACE);
+        mMediaRecorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4);
+        mMediaRecorder.setOutputFile(mVideoFilename);
+        mMediaRecorder.setVideoEncodingBitRate(1000000);
+        mMediaRecorder.setVideoFrameRate(30);
+        mMediaRecorder.setVideoSize(mVideoSize.getWidth(), mVideoSize.getHeight());
+        mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
+        mMediaRecorder.setOrientationHint(mTotalRotation);
+        mMediaRecorder.prepare();
     }
 
     public interface OnFragmentInteractionListener {
