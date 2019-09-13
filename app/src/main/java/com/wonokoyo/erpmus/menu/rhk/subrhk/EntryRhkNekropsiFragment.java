@@ -4,13 +4,11 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +19,7 @@ import android.widget.ImageView;
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Nekropsi;
 import com.wonokoyo.erpmus.util.EnumNekropsi;
-import com.wonokoyo.erpmus.util.RecycleNekropsi;
+import com.wonokoyo.erpmus.util.NekropsiAdapter;
 
 import java.util.List;
 
@@ -54,7 +52,7 @@ public class EntryRhkNekropsiFragment extends Fragment {
 
         recyclerView = view.findViewById(R.id.recycleNekropsi);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new RecycleNekropsi(listNekropsi, getFragmentManager()));
+        recyclerView.setAdapter(new NekropsiAdapter(listNekropsi, getFragmentManager()));
 
         btnBerikut = view.findViewById(R.id.btnBerikutNekropsi);
         btnBerikut.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewAttachmentFragment));

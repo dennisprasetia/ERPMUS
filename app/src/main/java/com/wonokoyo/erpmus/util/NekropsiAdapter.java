@@ -16,12 +16,12 @@ import com.wonokoyo.erpmus.classes.Nekropsi;
 
 import java.util.List;
 
-public class RecycleNekropsi extends RecyclerView.Adapter<RecycleNekropsi.RecycleViewHolder> {
+public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.RecycleViewHolder> {
 
     private FragmentManager mFragmentManager;
     private List<Nekropsi> mNekropsis;
 
-    public RecycleNekropsi(List<Nekropsi> nekropsis, FragmentManager fragmentManager) {
+    public NekropsiAdapter(List<Nekropsi> nekropsis, FragmentManager fragmentManager) {
         this.mFragmentManager = fragmentManager;
         this.mNekropsis = nekropsis;
     }

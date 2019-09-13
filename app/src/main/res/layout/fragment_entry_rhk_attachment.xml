@@ -52,35 +52,39 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="260dp" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imgBtnPhoto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_btn_attachment"
+            android:contentDescription="@string/button_photo"
+            android:padding="15dp"
             android:src="@drawable/ic_photo_camera"
             app:layout_constraintBottom_toTopOf="@+id/guideline35"
             app:layout_constraintEnd_toStartOf="@+id/guideline38"
             app:layout_constraintStart_toStartOf="@+id/guideline36"
-            app:layout_constraintTop_toTopOf="@+id/guideline34"
-            android:contentDescription="@string/button_photo"/>
+            app:layout_constraintTop_toTopOf="@+id/guideline34" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imgBtnVideo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="125dp"
+            android:layout_height="125dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
+            android:background="@drawable/bg_btn_attachment"
+            android:contentDescription="@string/button_video"
             android:src="@drawable/ic_videocam"
+            android:padding="10dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline35"
             app:layout_constraintEnd_toStartOf="@+id/guideline37"
             app:layout_constraintStart_toStartOf="@+id/guideline39"
-            app:layout_constraintTop_toTopOf="@+id/guideline34"
-            android:contentDescription="@string/button_video"/>
+            app:layout_constraintTop_toTopOf="@+id/guideline34" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycleAttachment"
