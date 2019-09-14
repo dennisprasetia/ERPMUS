@@ -222,6 +222,15 @@ public class EntryRhkVideoFragment extends Fragment {
         super.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        closeCamera();
+
+        stopBackgroundThread();
+
+        super.onDestroy();
+    }
+
     private void setupCamera(int width, int height) {
         CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
         try {

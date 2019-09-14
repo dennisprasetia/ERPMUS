@@ -10,6 +10,7 @@ public class Rhk implements Parcelable {
     private List<Sekat> sekats;
     private PakanDanKematian pakanDanKematian;
     private List<Nekropsi> nekropsies;
+    private List<Attachment> attachments;
 
     public Rhk() {
 
@@ -60,6 +61,14 @@ public class Rhk implements Parcelable {
 
     public void setNekropsies(List<Nekropsi> nekropsies) {
         this.nekropsies = nekropsies;
+    }
+
+    public List<Attachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<Attachment> attachments) {
+        this.attachments = attachments;
     }
 
     @Override
