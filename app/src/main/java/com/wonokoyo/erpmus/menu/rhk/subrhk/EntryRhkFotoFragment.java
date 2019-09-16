@@ -95,7 +95,7 @@ public class EntryRhkFotoFragment extends Fragment {
         @Override
         public void onError(@NonNull CameraDevice cameraDevice, int i) {
             cameraDevice.close();
-            cameraDevice = null;
+            mCameraDevice = null;
         }
     };
 
@@ -160,8 +160,8 @@ public class EntryRhkFotoFragment extends Fragment {
     public static Size chooseOptimalSize(Size[] choices, int width, int height) {
         List<Size> bigEnough = new ArrayList<>();
         for (Size option : choices) {
-            if (option.getHeight() == option.getWidth() * height / width && option.getWidth() >= width
-                && option.getHeight() >= height) {
+            if (option.getHeight() == option.getWidth() * height / width &&
+                    option.getWidth() < width && option.getHeight() < height) {
                 bigEnough.add(option);
             }
         }
@@ -182,18 +182,18 @@ public class EntryRhkFotoFragment extends Fragment {
         CameraManager manager = (CameraManager) this.getContext().getSystemService(Context.CAMERA_SERVICE);
         try {
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(mCameraDevice.getId());
-//            Size[] jpegSize = null;
-//            if (characteristics == null) {
-//                jpegSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
-//                        .getOutputSizes(ImageFormat.JPEG);
-//            }
+            Size[] jpegSize = null;
+            if (characteristics == null) {
+                jpegSize = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP)
+                        .getOutputSizes(ImageFormat.JPEG);
+            }
 
             int width = imageDimention.getWidth();
             int height = imageDimention.getHeight();
-//            if (jpegSize != null && jpegSize.length > 0) {
-//                width = jpegSize[0].getWidth();
-//                height = jpegSize[0].getHeight();
-//            }
+            if (jpegSize != null && jpegSize.length > 0) {
+                width = jpegSize[0].getWidth();
+                height = jpegSize[0].getHeight();
+            }
 
             final ImageReader reader = ImageReader.newInstance(width, height, ImageFormat.JPEG, 1);
             List<Surface> outputSurface = new ArrayList<>();

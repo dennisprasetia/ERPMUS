@@ -3,13 +3,14 @@ package com.wonokoyo.erpmus.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wonokoyo.erpmus.R;
@@ -33,9 +34,19 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class ViewHolderVideo extends RecyclerView.ViewHolder {
+        public VideoView vv;
+        public ImageView imgPlay;
 
         public ViewHolderVideo(@NonNull View itemView) {
             super(itemView);
+            vv = itemView.findViewById(R.id.videoView);
+            imgPlay = itemView.findViewById(R.id.imgPlayVideo);
+            imgPlay.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    vv.start();
+                }
+            });
         }
     }
 
@@ -44,8 +55,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void addAttach(List<Attachment> attachments) {
-        this.mAttachment.clear();
-        this.mAttachment.addAll(attachments);
+        mAttachment.clear();
+        mAttachment.addAll(attachments);
         notifyDataSetChanged();
     }
 
@@ -80,6 +91,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
 
             case 1:
+                Uri uri = Uri.parse(attachment.getUrl());
+                ((ViewHolderVideo) holder).vv.setVideoURI(uri);
                 break;
         }
     }
