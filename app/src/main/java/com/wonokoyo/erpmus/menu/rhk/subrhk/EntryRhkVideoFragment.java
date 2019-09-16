@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -163,8 +164,12 @@ public class EntryRhkVideoFragment extends Fragment {
                     isRecording = false;
                     imgBtnRecord.setImageResource(R.drawable.ic_videocam);
                     mMediaRecorder.stop();
-                    mMediaRecorder.reset();
-                    startPreview();
+                    //mMediaRecorder.reset();
+                    //startPreview();
+                    closeCamera();
+                    stopBackgroundThread();
+
+                    Navigation.findNavController(view).popBackStack();
                 } else {
                     checkWriteStoragePermission();
                 }

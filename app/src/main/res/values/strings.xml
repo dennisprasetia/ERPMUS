@@ -36,15 +36,15 @@
     <string name="kematian_ayam">Kematian Ayam</string>
     <string name="penerimaan_pakan_zak">Penerimaan Pakan (Zak)</string>
     <string name="sisa_pakan_di_kandang_zak">Sisa Pakan di Kandang (Zak)</string>
-	<string name="nomor">Nomor</string>
-	<string name="angka_kematian_ekor">Angka Kematian (ekor)</string>
-	<string name="keterangan">Keterangan</string>
-	<string name="check_list_nekropsi">Check List Nekropsi</string>
+    <string name="nomor">Nomor</string>
+    <string name="angka_kematian_ekor">Angka Kematian (ekor)</string>
+    <string name="keterangan">Keterangan</string>
+    <string name="check_list_nekropsi">Check List Nekropsi</string>
     <string name="parameter">Parameter</string>
     <string name="check">Check</string>
-	<string name="button_photo">Button for take a photo</string>
+    <string name="button_photo">Button for take a photo</string>
     <string name="button_video">Button for take a video</string>
-	<string name="capture">Capture</string>
-	<string name="button_recording">Button for video recording</string>
-	<string name="button_play_video">Button play video</string>
+    <string name="capture">Capture</string>
+    <string name="button_recording">Button for video recording</string>
+    <string name="button_play_video">Button play video</string>
 </resources>

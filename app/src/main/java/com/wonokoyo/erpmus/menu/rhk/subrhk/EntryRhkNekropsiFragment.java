@@ -18,6 +18,7 @@ import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Nekropsi;
+import com.wonokoyo.erpmus.classes.Rhk;
 import com.wonokoyo.erpmus.util.EnumNekropsi;
 import com.wonokoyo.erpmus.util.NekropsiAdapter;
 
@@ -29,6 +30,9 @@ public class EntryRhkNekropsiFragment extends Fragment {
     private RecyclerView recyclerView;
     private Button btnBerikut;
     private ImageView imgBack;
+
+    // variable args
+    Rhk rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
 
     private OnFragmentInteractionListener mListener;
 
@@ -55,7 +59,12 @@ public class EntryRhkNekropsiFragment extends Fragment {
         recyclerView.setAdapter(new NekropsiAdapter(listNekropsi, getFragmentManager()));
 
         btnBerikut = view.findViewById(R.id.btnBerikutNekropsi);
-        btnBerikut.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewAttachmentFragment));
+        btnBerikut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         imgBack = view.findViewById(R.id.imgBackNekropsi);
         imgBack.setOnClickListener(new View.OnClickListener() {

@@ -57,7 +57,7 @@
         tools:layout="@layout/fragment_entry_rhk_nekropsi" >
         <action
             android:id="@+id/viewAttachmentFragment"
-            app:destination="@id/entryRhkAttachmentFragment"
+            app:destination="@+id/entryRhkAttachmentFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -84,15 +84,38 @@
             app:exitAnim="@anim/slide_out_down"
             app:popEnterAnim="@anim/slide_in_down"
             app:popExitAnim="@anim/slide_out_up" />
+        <argument
+            android:name="rhk"
+            app:argType="com.wonokoyo.erpmus.classes.Rhk" />
+        <action
+            android:id="@+id/action_entryRhkAttachmentFragment_to_entryRhkSolusiFragment"
+            app:destination="@id/entryRhkSolusiFragment" />
     </fragment>
     <fragment
         android:id="@+id/entryRhkFotoFragment"
         android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkFotoFragment"
         android:label="fragment_entry_rhk_foto"
-        tools:layout="@layout/fragment_entry_rhk_foto" />
+        tools:layout="@layout/fragment_entry_rhk_foto" >
+        <argument
+            android:name="rhk"
+            app:argType="com.wonokoyo.erpmus.classes.Rhk" />
+    </fragment>
     <fragment
         android:id="@+id/entryRhkVideoFragment"
         android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkVideoFragment"
         android:label="fragment_entry_rhk_video"
-        tools:layout="@layout/fragment_entry_rhk_video" />
+        tools:layout="@layout/fragment_entry_rhk_video" >
+        <argument
+            android:name="rhk"
+            app:argType="com.wonokoyo.erpmus.classes.Rhk" />
+    </fragment>
+    <fragment
+        android:id="@+id/entryRhkSolusiFragment"
+        android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkSolusiFragment"
+        android:label="fragment_entry_rhk_solusi"
+        tools:layout="@layout/fragment_entry_rhk_solusi" >
+        <argument
+            android:name="rhk"
+            app:argType="com.wonokoyo.erpmus.classes.Rhk" />
+    </fragment>
 </navigation>

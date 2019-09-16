@@ -15,12 +15,16 @@ import android.widget.Button;
 import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
+import com.wonokoyo.erpmus.classes.Rhk;
 
 public class EntryRhkSekatFragment extends Fragment {
 
     // variable layout
     private ImageView imgBack;
     private Button btnBerikut;
+
+    // variable arg
+    Rhk rhk = EntryRhkSekatFragmentArgs.fromBundle(getArguments()).getRhk();
 
     private OnFragmentInteractionListener mListener;
 
@@ -46,7 +50,14 @@ public class EntryRhkSekatFragment extends Fragment {
         });
 
         btnBerikut = view.findViewById(R.id.btnBerikutSekat);
-        btnBerikut.setOnClickListener(Navigation.createNavigateOnClickListener(R.id.viewPakanKematianFragment));
+        btnBerikut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EntryRhkSekatFragmentDirections.ViewPakanKematianFragment actions =
+                        EntryRhkSekatFragmentDirections.viewPakanKematianFragment(rhk);
+                Navigation.findNavController(view).navigate(actions);
+            }
+        });
     }
 
     public interface OnFragmentInteractionListener {
