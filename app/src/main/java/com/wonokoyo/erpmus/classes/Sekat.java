@@ -9,6 +9,12 @@ public class Sekat {
 
     }
 
+    public Sekat(int nomor, int jumlah, double bbRata) {
+        this.nomor = nomor;
+        this.jumlah = jumlah;
+        this.bbRata = bbRata;
+    }
+
     public int getNomor() {
         return nomor;
     }

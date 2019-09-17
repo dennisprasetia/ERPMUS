@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -24,7 +25,7 @@ public class EntryRhkPakanKematianFragment extends Fragment {
     private ImageView imgBack;
 
     // variable args
-    Rhk rhk = EntryRhkPakanKematianFragmentArgs.fromBundle(getArguments()).getRhk();
+    Rhk rhk;
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,6 +42,13 @@ public class EntryRhkPakanKematianFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final NavController navController = Navigation.findNavController(view);
+
+        // get arguments
+        if (getArguments() != null)
+            rhk = EntryRhkPakanKematianFragmentArgs.fromBundle(getArguments()).getRhk();
+
+        // navigation
         imgBack = view.findViewById(R.id.imgBackPakan);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,7 +63,7 @@ public class EntryRhkPakanKematianFragment extends Fragment {
             public void onClick(View view) {
                 EntryRhkPakanKematianFragmentDirections.ViewNekropsiFragment actions =
                         EntryRhkPakanKematianFragmentDirections.viewNekropsiFragment(rhk);
-                Navigation.findNavController(view).navigate(actions);
+                navController.navigate(actions);
             }
         });
     }

@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.wonokoyo.erpmus.R;
@@ -18,11 +17,9 @@ import java.util.List;
 
 public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.RecycleViewHolder> {
 
-    private FragmentManager mFragmentManager;
     private List<Nekropsi> mNekropsis;
 
-    public NekropsiAdapter(List<Nekropsi> nekropsis, FragmentManager fragmentManager) {
-        this.mFragmentManager = fragmentManager;
+    public NekropsiAdapter(List<Nekropsi> nekropsis) {
         this.mNekropsis = nekropsis;
     }
 
@@ -36,7 +33,7 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
 
     @Override
     public void onBindViewHolder(@NonNull final RecycleViewHolder holder, int position) {
-        final Nekropsi mNekropsi = mNekropsis.get(position);
+        Nekropsi mNekropsi = mNekropsis.get(position);
 
         holder.txtParameter.setText(mNekropsi.getNama());
         holder.etKeterangan.setText(mNekropsi.getKeterangan());

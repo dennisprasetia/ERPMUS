@@ -43,6 +43,8 @@ public class EntryRhkMitraFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final NavController navController = Navigation.findNavController(view);
+
         Mitra mitra = new Mitra();
         mitra.setNama("Dennis");
         mitra.setKandang(1);
@@ -52,13 +54,14 @@ public class EntryRhkMitraFragment extends Fragment {
         final Rhk rhk = new Rhk();
         rhk.setMitra(mitra);
 
+        // navigation
         btnBerikut = view.findViewById(R.id.btnBerikutMitra);
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EntryRhkMitraFragmentDirections.ViewSekatFragment actions =
                         EntryRhkMitraFragmentDirections.viewSekatFragment(rhk);
-                Navigation.findNavController(view).navigate(actions);
+                navController.navigate(actions);
             }
         });
 

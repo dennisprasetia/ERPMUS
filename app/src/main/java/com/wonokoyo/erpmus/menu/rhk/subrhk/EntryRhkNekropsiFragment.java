@@ -5,10 +5,12 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,7 +34,7 @@ public class EntryRhkNekropsiFragment extends Fragment {
     private ImageView imgBack;
 
     // variable args
-    Rhk rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+    Rhk rhk;
 
     private OnFragmentInteractionListener mListener;
 
@@ -51,18 +53,33 @@ public class EntryRhkNekropsiFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
-        listNekropsi = EnumNekropsi.listNekropsi();
-        Log.e("CEK LIST", EnumNekropsi.showListInString());
+        final NavController navController = Navigation.findNavController(view);
 
+        // get arguments
+        if (getArguments() != null)
+            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+
+        listNekropsi = EnumNekropsi.listNekropsi();
         recyclerView = view.findViewById(R.id.recycleNekropsi);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(new NekropsiAdapter(listNekropsi, getFragmentManager()));
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setAdapter(new NekropsiAdapter(listNekropsi));
+            }
+        }, 500);
 
+        // navigation
         btnBerikut = view.findViewById(R.id.btnBerikutNekropsi);
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rhk.setNekropsies(listNekropsi);
 
+                EntryRhkNekropsiFragmentDirections.ViewAttachmentFragment action =
+                        EntryRhkNekropsiFragmentDirections.viewAttachmentFragment(rhk);
+                navController.navigate(action);
             }
         });
 

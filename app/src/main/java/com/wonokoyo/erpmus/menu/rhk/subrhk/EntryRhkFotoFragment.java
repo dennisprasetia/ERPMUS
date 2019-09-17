@@ -3,6 +3,7 @@ package com.wonokoyo.erpmus.menu.rhk.subrhk;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.BitmapFactory;
 import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
@@ -22,6 +23,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -37,6 +40,8 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
+import com.wonokoyo.erpmus.classes.Attachment;
+import com.wonokoyo.erpmus.classes.Rhk;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -56,6 +61,9 @@ public class EntryRhkFotoFragment extends Fragment {
     // variable layout
     private TextureView textureView;
     private Button btnCapture;
+
+    // variable args
+    Rhk rhk;
 
     private OnFragmentInteractionListener mListener;
 
@@ -109,6 +117,11 @@ public class EntryRhkFotoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_entry_rhk_foto, container, false);
 
+        final NavController navController = Navigation.findNavController(view);
+
+        if (getArguments() != null)
+            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+
         textureView = view.findViewById(R.id.texturePhoto);
         assert textureView != null;
         textureView.setSurfaceTextureListener(new TextureView.SurfaceTextureListener() {
@@ -138,6 +151,7 @@ public class EntryRhkFotoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 takePicture();
+                navController.popBackStack();
             }
         });
 
@@ -210,6 +224,9 @@ public class EntryRhkFotoFragment extends Fragment {
 
             file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Camera/"
                     + UUID.randomUUID().toString() + ".jpg");
+            List<Attachment> attachmentList = new ArrayList<>();
+            attachmentList.add(new Attachment(file.getAbsolutePath(), 0, "photo"));
+
             ImageReader.OnImageAvailableListener readerListener = new ImageReader.OnImageAvailableListener() {
                 @Override
                 public void onImageAvailable(ImageReader imageReader) {

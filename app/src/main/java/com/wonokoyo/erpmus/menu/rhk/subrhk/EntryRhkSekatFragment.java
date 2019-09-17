@@ -6,6 +6,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -16,6 +17,10 @@ import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Rhk;
+import com.wonokoyo.erpmus.classes.Sekat;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntryRhkSekatFragment extends Fragment {
 
@@ -24,7 +29,7 @@ public class EntryRhkSekatFragment extends Fragment {
     private Button btnBerikut;
 
     // variable arg
-    Rhk rhk = EntryRhkSekatFragmentArgs.fromBundle(getArguments()).getRhk();
+    Rhk rhk;
 
     private OnFragmentInteractionListener mListener;
 
@@ -41,6 +46,19 @@ public class EntryRhkSekatFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final NavController navController = Navigation.findNavController(view);
+
+        // get arguments
+        if (getArguments() != null)
+            rhk = EntryRhkSekatFragmentArgs.fromBundle(getArguments()).getRhk();
+
+        final List<Sekat> sekatList = new ArrayList<>();
+        for (int a = 0; a < 3; a++) {
+            Sekat sekat = new Sekat(a+1, 2, 1.5);
+            sekatList.add(sekat);
+        }
+
+        // navigation
         imgBack = view.findViewById(R.id.imgBackSekat);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,9 +71,11 @@ public class EntryRhkSekatFragment extends Fragment {
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rhk.setSekats(sekatList);
+
                 EntryRhkSekatFragmentDirections.ViewPakanKematianFragment actions =
                         EntryRhkSekatFragmentDirections.viewPakanKematianFragment(rhk);
-                Navigation.findNavController(view).navigate(actions);
+                navController.navigate(actions);
             }
         });
     }

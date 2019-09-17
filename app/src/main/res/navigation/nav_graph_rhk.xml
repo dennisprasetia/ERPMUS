@@ -16,7 +16,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right">
+        </action>
     </fragment>
     <fragment
         android:id="@+id/entryRhkSekatFragment"
@@ -76,6 +77,7 @@
             app:destination="@id/entryRhkFotoFragment"
             app:enterAnim="@anim/slide_in_up"
             app:exitAnim="@anim/slide_out_down"
+            app:popEnterAnim="@anim/slide_in_down"
             app:popExitAnim="@anim/slide_out_up" />
         <action
             android:id="@+id/viewVideoFragment"
@@ -88,8 +90,12 @@
             android:name="rhk"
             app:argType="com.wonokoyo.erpmus.classes.Rhk" />
         <action
-            android:id="@+id/action_entryRhkAttachmentFragment_to_entryRhkSolusiFragment"
-            app:destination="@id/entryRhkSolusiFragment" />
+            android:id="@+id/viewSolusiFragment"
+            app:destination="@id/entryRhkSolusiFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/entryRhkFotoFragment"
@@ -113,7 +119,7 @@
         android:id="@+id/entryRhkSolusiFragment"
         android:name="com.wonokoyo.erpmus.menu.rhk.subrhk.EntryRhkSolusiFragment"
         android:label="fragment_entry_rhk_solusi"
-        tools:layout="@layout/fragment_entry_rhk_solusi" >
+        tools:layout="@layout/fragment_entry_rhk_solusi">
         <argument
             android:name="rhk"
             app:argType="com.wonokoyo.erpmus.classes.Rhk" />
