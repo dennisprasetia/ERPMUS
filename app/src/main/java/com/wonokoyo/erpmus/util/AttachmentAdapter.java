@@ -17,6 +17,7 @@ import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Attachment;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -52,12 +53,15 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     public AttachmentAdapter(Context context) {
         this.context = context;
+        this.mAttachment = new ArrayList<>();
     }
 
     public void addAttach(List<Attachment> attachments) {
-        mAttachment.clear();
-        mAttachment.addAll(attachments);
-        notifyDataSetChanged();
+        if (mAttachment.size() > 0 && attachments != null) {
+            mAttachment.clear();
+            mAttachment.addAll(attachments);
+            notifyDataSetChanged();
+        }
     }
 
     @Override

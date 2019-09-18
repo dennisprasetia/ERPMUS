@@ -3,6 +3,7 @@ package com.wonokoyo.erpmus.menu.rhk.subrhk;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.ImageFormat;
 import android.graphics.SurfaceTexture;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraCaptureSession;
@@ -10,7 +11,11 @@ import android.hardware.camera2.CameraCharacteristics;
 import android.hardware.camera2.CameraDevice;
 import android.hardware.camera2.CameraManager;
 import android.hardware.camera2.CaptureRequest;
+import android.hardware.camera2.CaptureResult;
+import android.hardware.camera2.TotalCaptureResult;
 import android.hardware.camera2.params.StreamConfigurationMap;
+import android.media.Image;
+import android.media.ImageReader;
 import android.media.MediaRecorder;
 import android.net.Uri;
 import android.os.Build;
@@ -40,7 +45,9 @@ import android.widget.Toast;
 import com.wonokoyo.erpmus.R;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,7 +61,13 @@ public class EntryRhkVideoFragment extends Fragment {
     // variable for video
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
     private static final int REQUEST_STORAGE_PERMISSION_RESULT = 1;
+    private static final int STATE_PREVIEW = 0;
+    private static final int STATE_WAIT_LOCK = 1;
+    private int mCaptureState = STATE_PREVIEW;
+
     private ImageButton imgBtnRecord;
+    private ImageButton imgBtnCapture;
+
     private boolean isRecording = false;
     private TextureView mTextureView;
     private TextureView.SurfaceTextureListener mSurfaceTextureListener = new TextureView.SurfaceTextureListener() {
@@ -116,7 +129,76 @@ public class EntryRhkVideoFragment extends Fragment {
     private String mCameraId;
     private Size mPreviewSize;
     private Size mVideoSize;
+
+    private Size mImageSize;
+    private ImageReader mImageReader;
+    private final ImageReader.OnImageAvailableListener mOnImageAvailableListener = new
+            ImageReader.OnImageAvailableListener() {
+                @Override
+                public void onImageAvailable(ImageReader imageReader) {
+                    mBackgroundHandler.post(new ImageSaver(imageReader.acquireLatestImage()));
+                }
+            };
+    private class ImageSaver implements Runnable {
+        private final Image mImage;
+
+        public ImageSaver(Image image) {
+            mImage = image;
+        }
+
+        @Override
+        public void run() {
+            ByteBuffer byteBuffer = mImage.getPlanes()[0].getBuffer();
+            byte[] bytes = new byte[byteBuffer.remaining()];
+            byteBuffer.get(bytes);
+
+            FileOutputStream fileOutputStream = null;
+            try {
+                fileOutputStream = new FileOutputStream(mImageFilename);
+                fileOutputStream.write(bytes);
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                mImage.close();
+                if (fileOutputStream != null) {
+                    try {
+                        fileOutputStream.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
     private int mTotalRotation;
+    private CameraCaptureSession mPreviewCaptureSession;
+    private CameraCaptureSession.CaptureCallback mPreviewCaptureCallback = new
+            CameraCaptureSession.CaptureCallback() {
+                private void process(CaptureResult captureResult) {
+                    switch (mCaptureState) {
+                        case STATE_PREVIEW:
+                            // Do nothing
+                            break;
+
+                        case STATE_WAIT_LOCK:
+                            Integer afState = captureResult.get(CaptureResult.CONTROL_AF_STATE);
+                            if (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
+                                    afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
+                                startStillCaptureRequest();
+                            }
+
+                            break;
+                    }
+                }
+
+                @Override
+                public void onCaptureCompleted(CameraCaptureSession session, CaptureRequest request, TotalCaptureResult result) {
+                    super.onCaptureCompleted(session, request, result);
+
+                    process(result);
+                }
+            };
     private CaptureRequest.Builder mCaptureRequestBuilder;
     private static SparseIntArray ORIENTATIONS = new SparseIntArray();
 
@@ -124,6 +206,8 @@ public class EntryRhkVideoFragment extends Fragment {
 
     private File mVideoFolder;
     private String mVideoFilename;
+    private File mImageFolder;
+    private String mImageFilename;
 
     static {
         ORIENTATIONS.append(Surface.ROTATION_0, 0);
@@ -164,15 +248,19 @@ public class EntryRhkVideoFragment extends Fragment {
                     isRecording = false;
                     imgBtnRecord.setImageResource(R.drawable.ic_videocam);
                     mMediaRecorder.stop();
-                    //mMediaRecorder.reset();
-                    //startPreview();
-                    closeCamera();
-                    stopBackgroundThread();
-
-                    Navigation.findNavController(view).popBackStack();
+                    mMediaRecorder.reset();
+                    startPreview();
                 } else {
                     checkWriteStoragePermission();
                 }
+            }
+        });
+
+        imgBtnCapture = view.findViewById(R.id.imgBtnCapture);
+        imgBtnCapture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lockFocus();
             }
         });
 
@@ -227,15 +315,6 @@ public class EntryRhkVideoFragment extends Fragment {
         super.onPause();
     }
 
-    @Override
-    public void onDestroy() {
-        closeCamera();
-
-        stopBackgroundThread();
-
-        super.onDestroy();
-    }
-
     private void setupCamera(int width, int height) {
         CameraManager cameraManager = (CameraManager) getActivity().getSystemService(Context.CAMERA_SERVICE);
         try {
@@ -256,6 +335,10 @@ public class EntryRhkVideoFragment extends Fragment {
                 }
                 mPreviewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), rotationWidth, rotationHeight);
                 mVideoSize = chooseOptimalSize(map.getOutputSizes(MediaRecorder.class), rotationWidth, rotationHeight);
+
+                mImageSize = chooseOptimalSize(map.getOutputSizes(ImageFormat.JPEG), rotationWidth, rotationHeight);
+                mImageReader = ImageReader.newInstance(mImageSize.getWidth(), mImageSize.getHeight(), ImageFormat.JPEG, 1);
+                mImageReader.setOnImageAvailableListener(mOnImageAvailableListener, mBackgroundHandler);
 
                 mCameraId = cameraId;
                 return;
@@ -329,9 +412,12 @@ public class EntryRhkVideoFragment extends Fragment {
             mCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW);
             mCaptureRequestBuilder.addTarget(previewSurface);
 
-            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface), new CameraCaptureSession.StateCallback() {
+            mCameraDevice.createCaptureSession(Arrays.asList(previewSurface, mImageReader.getSurface()),
+                    new CameraCaptureSession.StateCallback() {
                 @Override
                 public void onConfigured(@NonNull CameraCaptureSession cameraCaptureSession) {
+                    mPreviewCaptureSession = cameraCaptureSession;
+
                     try {
                         cameraCaptureSession.setRepeatingRequest(mCaptureRequestBuilder.build(), null,
                                 mBackgroundHandler);
@@ -350,10 +436,41 @@ public class EntryRhkVideoFragment extends Fragment {
         }
     }
 
+    private void startStillCaptureRequest() {
+        try {
+            mCaptureRequestBuilder = mCameraDevice.createCaptureRequest(CameraDevice.TEMPLATE_STILL_CAPTURE);
+            mCaptureRequestBuilder.addTarget(mImageReader.getSurface());
+            mCaptureRequestBuilder.set(CaptureRequest.JPEG_ORIENTATION, mTotalRotation);
+
+            CameraCaptureSession.CaptureCallback stillCaptureCallback = new
+                    CameraCaptureSession.CaptureCallback() {
+                        @Override
+                        public void onCaptureStarted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, long timestamp, long frameNumber) {
+                            super.onCaptureStarted(session, request, timestamp, frameNumber);
+
+                            try {
+                                createImageFilename();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    };
+
+            mPreviewCaptureSession.capture(mCaptureRequestBuilder.build(), stillCaptureCallback, null);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void closeCamera() {
         if (mCameraDevice != null) {
             mCameraDevice.close();
             mCameraDevice = null;
+        }
+
+        if (mMediaRecorder != null) {
+            mMediaRecorder.release();
+            mMediaRecorder = null;
         }
     }
 
@@ -406,11 +523,28 @@ public class EntryRhkVideoFragment extends Fragment {
 
     private File createVideoFilename() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String prepend = "Video_" + timestamp;
+        String prepend = "VD_" + timestamp;
         File videoFile = File.createTempFile(prepend, ".mp4", mVideoFolder);
         mVideoFilename = videoFile.getAbsolutePath();
 
         return videoFile;
+    }
+
+    private void createImageFolder() {
+        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
+        mImageFolder = new File(imageFile, "camera2VideoImage");
+        if (!mImageFolder.exists()) {
+            mImageFolder.mkdirs();
+        }
+    }
+
+    private File createImageFilename() throws IOException {
+        String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String prepend = "IMG_" + timestamp;
+        File imageFile = File.createTempFile(prepend, ".jpg", mImageFolder);
+        mImageFilename = imageFile.getAbsolutePath();
+
+        return imageFile;
     }
 
     private void checkWriteStoragePermission() {
@@ -457,6 +591,16 @@ public class EntryRhkVideoFragment extends Fragment {
         mMediaRecorder.setVideoEncoder(MediaRecorder.VideoEncoder.H264);
         mMediaRecorder.setOrientationHint(mTotalRotation);
         mMediaRecorder.prepare();
+    }
+
+    private void lockFocus() {
+        mCaptureState = STATE_WAIT_LOCK;
+        mCaptureRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER, CaptureRequest.CONTROL_AF_TRIGGER_START);
+        try {
+            mPreviewCaptureSession.capture(mCaptureRequestBuilder.build(), mPreviewCaptureCallback, mBackgroundHandler);
+        } catch (CameraAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     public interface OnFragmentInteractionListener {

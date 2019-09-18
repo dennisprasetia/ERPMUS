@@ -47,4 +47,5 @@
     <string name="capture">Capture</string>
     <string name="button_recording">Button for video recording</string>
     <string name="button_play_video">Button play video</string>
+	<string name="button_for_capture_image">Button for capture image</string>
 </resources>

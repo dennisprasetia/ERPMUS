@@ -21,6 +21,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
@@ -112,15 +113,17 @@ public class EntryRhkFotoFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_entry_rhk_foto, container, false);
-
-        final NavController navController = Navigation.findNavController(view);
-
-        if (getArguments() != null)
-            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
 
         textureView = view.findViewById(R.id.texturePhoto);
         assert textureView != null;
@@ -151,7 +154,6 @@ public class EntryRhkFotoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 takePicture();
-                navController.popBackStack();
             }
         });
 
@@ -340,7 +342,7 @@ public class EntryRhkFotoFragment extends Fragment {
             CameraCharacteristics characteristics = manager.getCameraCharacteristics(cameraId);
             StreamConfigurationMap map = characteristics.get(CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP);
             assert map != null;
-            imageDimention = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), width, height);
+            imageDimention = chooseOptimalSize(map.getOutputSizes(SurfaceTexture.class), height, width);
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CAMERA,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE},

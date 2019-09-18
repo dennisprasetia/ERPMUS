@@ -41,6 +41,13 @@ public class EntryRhkAttachmentFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null & rhk == null)
+            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -50,9 +57,6 @@ public class EntryRhkAttachmentFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final NavController navController = Navigation.findNavController(view);
-
-        if (getArguments() != null & rhk == null)
-            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
 
         imgBtnPhoto = view.findViewById(R.id.imgBtnPhoto);
         imgBtnPhoto.setOnClickListener(new View.OnClickListener() {
@@ -88,12 +92,6 @@ public class EntryRhkAttachmentFragment extends Fragment {
         AttachmentAdapter adapter = new AttachmentAdapter(getContext());
         recyclerView.setAdapter(adapter);
         adapter.addAttach(rhk.getAttachments());
-    }
-
-    @SuppressLint("MissingSuperCall")
-    @Override
-    public void onDestroyView() {
-
     }
 
     public interface OnFragmentInteractionListener {
