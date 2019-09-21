@@ -185,6 +185,7 @@ public class EntryRhkVideoFragment extends Fragment {
                             Integer afState = captureResult.get(CaptureResult.CONTROL_AF_STATE);
                             if (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
                                     afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
+                                Toast.makeText(getContext(), "AF Locked!", Toast.LENGTH_SHORT).show();
                                 startStillCaptureRequest();
                             }
 
@@ -265,6 +266,7 @@ public class EntryRhkVideoFragment extends Fragment {
         });
 
         createVideoFolder();
+        createImageFolder();
 
         mMediaRecorder = new MediaRecorder();
     }
@@ -515,7 +517,7 @@ public class EntryRhkVideoFragment extends Fragment {
 
     private void createVideoFolder() {
         File movieFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES);
-        mVideoFolder = new File(movieFile, "camera2VideoImage");
+        mVideoFolder = new File(movieFile, "camera2Video");
         if (!mVideoFolder.exists()) {
             mVideoFolder.mkdirs();
         }
@@ -523,7 +525,7 @@ public class EntryRhkVideoFragment extends Fragment {
 
     private File createVideoFilename() throws IOException {
         String timestamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String prepend = "VD_" + timestamp;
+        String prepend = "VID_" + timestamp;
         File videoFile = File.createTempFile(prepend, ".mp4", mVideoFolder);
         mVideoFilename = videoFile.getAbsolutePath();
 
@@ -532,7 +534,7 @@ public class EntryRhkVideoFragment extends Fragment {
 
     private void createImageFolder() {
         File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mImageFolder = new File(imageFile, "camera2VideoImage");
+        mImageFolder = new File(imageFile, "camera2Image");
         if (!mImageFolder.exists()) {
             mImageFolder.mkdirs();
         }

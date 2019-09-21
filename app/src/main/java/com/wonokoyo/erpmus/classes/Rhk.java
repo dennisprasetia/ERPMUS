@@ -71,6 +71,10 @@ public class Rhk implements Parcelable {
         this.attachments = attachments;
     }
 
+    public void addAttachment(Attachment attachment) {
+        this.attachments.add(attachment);
+    }
+
     @Override
     public int describeContents() {
         return 0;
