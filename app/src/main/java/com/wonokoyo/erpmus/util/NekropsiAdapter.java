@@ -52,6 +52,8 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
         private RecycleViewHolder(@NonNull View itemView) {
             super(itemView);
 
+            this.setIsRecyclable(false);
+
             txtParameter = itemView.findViewById(R.id.txtParameter);
             cbNekropsi = itemView.findViewById(R.id.cbNekropsi);
             etKeterangan = itemView.findViewById(R.id.etKeterangan);
