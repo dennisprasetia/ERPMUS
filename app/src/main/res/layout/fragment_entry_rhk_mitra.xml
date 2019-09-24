@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="41dp" />
+            app:layout_constraintGuide_percent="0.1" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline9"
@@ -51,7 +51,7 @@
                 app:layout_constraintGuide_percent="0.85" />
 
             <ImageView
-                android:id="@+id/imgBackMitra"
+                android:id="@+id/imgBackSolusi"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -104,7 +104,27 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_begin="70dp" />
 
+        <Button
+            android:id="@+id/btnBerikutMitra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginBottom="10dp"
+            android:drawableEnd="@drawable/ic_next_white"
+            android:text="@string/berikut"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/clMitra"
+            app:layout_constraintVertical_bias="1.0" />
+
         <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="0dp"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -210,18 +230,6 @@
                     android:labelFor="@id/llFormMitra"
                     android:textSize="22sp"
                     tools:targetApi="O" />
-
-                <Button
-                    android:id="@+id/btnBerikutMitra"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginBottom="20dp"
-                    android:drawableEnd="@drawable/ic_next_white"
-                    android:text="@string/berikut"
-                    android:textSize="20sp" />
 
             </LinearLayout>
         </ScrollView>

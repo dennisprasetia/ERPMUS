@@ -47,4 +47,12 @@
 	<string name="button_recording">Button for video recording</string>
 	<string name="button_play_video">Button play video</string>
 	<string name="button_for_capture_image">Button for capture image</string>
+	<string name="pilihan_solusi">Pilihan Solusi</string>
+	
+	<!--string kalimat-kalimat solusi-->
+	<string name="solusi_1">1. Perbaikan manajemen pemeliharaan</string>
+	<string name="solusi_2">2. Perbaikan manajemen pemeliharaan dan terapi</string>
+	<string name="solusi_3">3. Ketepatan diagnosa dan terapi dijalankan</string>
+	<string name="solusi_4">4. Panen dini</string>
+	<string name="selesai">Selesai</string>
 </resources>

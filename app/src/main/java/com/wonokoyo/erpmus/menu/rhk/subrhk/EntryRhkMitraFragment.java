@@ -7,9 +7,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
@@ -65,7 +63,7 @@ public class EntryRhkMitraFragment extends Fragment {
             }
         });
 
-        imgBack = view.findViewById(R.id.imgBackMitra);
+        imgBack = view.findViewById(R.id.imgBackSolusi);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
