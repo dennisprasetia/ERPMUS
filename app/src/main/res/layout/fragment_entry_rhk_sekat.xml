@@ -192,7 +192,7 @@
             app:layout_constraintTop_toTopOf="@+id/guideline16" />
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/btnAddSekat"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/add"
@@ -210,7 +210,7 @@
             android:orientation="horizontal"
             app:layout_constraintEnd_toStartOf="@+id/guideline18"
             app:layout_constraintStart_toStartOf="@+id/guideline13"
-            app:layout_constraintTop_toBottomOf="@+id/button">
+            app:layout_constraintTop_toBottomOf="@+id/btnAddSekat">
 
             <TextView
                 android:id="@+id/textView7"

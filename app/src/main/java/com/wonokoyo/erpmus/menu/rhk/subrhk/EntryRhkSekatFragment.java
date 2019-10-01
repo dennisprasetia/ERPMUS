@@ -27,6 +27,7 @@ public class EntryRhkSekatFragment extends Fragment {
     // variable layout
     private ImageView imgBack;
     private Button btnBerikut;
+    private Button btnAddSekat;
 
     // variable arg
     Rhk rhk;
@@ -64,6 +65,14 @@ public class EntryRhkSekatFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).popBackStack();
+            }
+        });
+
+        btnAddSekat = view.findViewById(R.id.btnAddSekat);
+        btnAddSekat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
 
