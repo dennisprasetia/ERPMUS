@@ -26,7 +26,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     private Context context;
 
     class ViewHolderPhoto extends RecyclerView.ViewHolder {
-        public ImageView iv;
+        private ImageView iv;
 
         public ViewHolderPhoto(@NonNull View itemView) {
             super(itemView);
@@ -35,8 +35,8 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     class ViewHolderVideo extends RecyclerView.ViewHolder {
-        public VideoView vv;
-        public ImageView imgPlay;
+        private VideoView vv;
+        private ImageView imgPlay;
 
         public ViewHolderVideo(@NonNull View itemView) {
             super(itemView);
@@ -57,7 +57,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void addAttach(List<Attachment> attachments) {
-        if (mAttachment.size() > 0 && attachments != null) {
+        if (attachments.size() > 0) {
             mAttachment.clear();
             mAttachment.addAll(attachments);
             notifyDataSetChanged();
@@ -70,10 +70,11 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return mAttachment.get(position).getType();
     }
 
+    @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = null;
+        View view;
         if (viewType == 0) {
             view = inflater.inflate(R.layout.view_photo, parent, false);
             return new ViewHolderPhoto(view);

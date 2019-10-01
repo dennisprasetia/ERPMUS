@@ -15,7 +15,7 @@ import com.wonokoyo.erpmus.classes.Nekropsi;
 
 import java.util.List;
 
-public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.RecycleViewHolder> {
+public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.RecycleViewNekropsi> {
 
     private List<Nekropsi> mNekropsis;
 
@@ -25,14 +25,14 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
 
     @NonNull
     @Override
-    public RecycleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecycleViewNekropsi onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.view_item_nekropsi, parent, false);
-        return new RecycleViewHolder(view);
+        return new RecycleViewNekropsi(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecycleViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final RecycleViewNekropsi holder, int position) {
         Nekropsi mNekropsi = mNekropsis.get(position);
 
         holder.txtParameter.setText(mNekropsi.getNama());
@@ -44,12 +44,12 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
         return mNekropsis.size();
     }
 
-    public class RecycleViewHolder extends RecyclerView.ViewHolder {
+    protected class RecycleViewNekropsi extends RecyclerView.ViewHolder {
         TextView txtParameter;
         CheckBox cbNekropsi;
         EditText etKeterangan;
 
-        private RecycleViewHolder(@NonNull View itemView) {
+        private RecycleViewNekropsi(@NonNull View itemView) {
             super(itemView);
 
             this.setIsRecyclable(false);
