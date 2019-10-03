@@ -68,7 +68,7 @@ public class EntryRhkNekropsiFragment extends Fragment {
             public void run() {
                 recyclerView.setAdapter(new NekropsiAdapter(listNekropsi));
             }
-        }, 300);
+        }, 400);
 
         // navigation
         btnBerikut = view.findViewById(R.id.btnBerikutNekropsi);

@@ -1,5 +1,6 @@
 package com.wonokoyo.erpmus.util;
 
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import java.util.List;
 public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.RecycleViewNekropsi> {
 
     private List<Nekropsi> mNekropsis;
+    private final SparseBooleanArray array = new SparseBooleanArray();
 
     public NekropsiAdapter(List<Nekropsi> nekropsis) {
         this.mNekropsis = nekropsis;
@@ -32,11 +34,18 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final RecycleViewNekropsi holder, int position) {
-        Nekropsi mNekropsi = mNekropsis.get(position);
+    public void onBindViewHolder(@NonNull RecycleViewNekropsi holder, int position) {
+        Nekropsi nekropsi = mNekropsis.get(position);
 
-        holder.txtParameter.setText(mNekropsi.getNama());
-        holder.etKeterangan.setText(mNekropsi.getKeterangan());
+        holder.txtParameter.setText(nekropsi.getNama());
+        holder.etKeterangan.setText(nekropsi.getKeterangan());
+        if (array.get(position)) {
+            nekropsi.setStatus(1);
+            holder.cbNekropsi.setChecked(true);
+        } else {
+            nekropsi.setStatus(0);
+            holder.cbNekropsi.setChecked(false);
+        }
     }
 
     @Override
@@ -52,11 +61,20 @@ public class NekropsiAdapter extends RecyclerView.Adapter<NekropsiAdapter.Recycl
         private RecycleViewNekropsi(@NonNull View itemView) {
             super(itemView);
 
-            this.setIsRecyclable(false);
-
             txtParameter = itemView.findViewById(R.id.txtParameter);
-            cbNekropsi = itemView.findViewById(R.id.cbNekropsi);
             etKeterangan = itemView.findViewById(R.id.etKeterangan);
+            cbNekropsi = itemView.findViewById(R.id.cbNekropsi);
+            cbNekropsi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (array.get(getAdapterPosition())) {
+                        array.put(getAdapterPosition(), false);
+                    } else {
+                        array.put(getAdapterPosition(), true);
+                    }
+                    notifyDataSetChanged();
+                }
+            });
         }
     }
 }

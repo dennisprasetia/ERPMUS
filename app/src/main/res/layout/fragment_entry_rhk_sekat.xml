@@ -214,9 +214,9 @@
 
             <TextView
                 android:id="@+id/textView7"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.333"
+                android:layout_weight="0.2"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/nomor"
@@ -226,9 +226,9 @@
 
             <TextView
                 android:id="@+id/textView8"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.333"
+                android:layout_weight="0.4"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/jumlah_sekat"
@@ -238,9 +238,9 @@
 
             <TextView
                 android:id="@+id/textView9"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="0.333"
+                android:layout_weight="0.4"
                 android:background="@android:color/transparent"
                 android:gravity="center"
                 android:text="@string/bb_rata_gr"
@@ -251,7 +251,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/rvSekat"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="8dp"
