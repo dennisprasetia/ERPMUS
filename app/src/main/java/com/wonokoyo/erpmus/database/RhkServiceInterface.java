@@ -1,4 +1,4 @@
-package com.wonokoyo.erpmus.services;
+package com.wonokoyo.erpmus.database;
 
 import com.wonokoyo.erpmus.util.Path;
 
@@ -11,15 +11,9 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Query;
 
-public interface RhkService {
+public interface RhkServiceInterface {
     @GET(Path.GET_MITRA)
     Call<ResponseBody> getListMitra();
-
-    @GET(Path.GET_KANDANG)
-    Call<ResponseBody> getListKandangByMitra(@Query("id_mitra") String id_mitra);
-
-    @GET(Path.GET_DETAIL_KANDANG)
-    Call<ResponseBody> getDetailKandangByKandangAndMitra(@Query("id_kandang") String id_kandang, @Query("id_mitra") String id_mitra);
 
     @GET(Path.SAVE_RHK)
     Call<ResponseBody> saveRhk(@Query("data_rhk") String arrayJson);

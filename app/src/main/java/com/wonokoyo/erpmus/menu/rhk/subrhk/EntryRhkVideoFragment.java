@@ -25,11 +25,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -41,6 +43,8 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
+import com.wonokoyo.erpmus.classes.Attachment;
+import com.wonokoyo.erpmus.classes.Rhk;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -55,6 +59,10 @@ import java.util.Date;
 import java.util.List;
 
 public class EntryRhkVideoFragment extends Fragment {
+
+    private List<Attachment> attachmentList;
+
+    Rhk rhk;
 
     // variable for video
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
@@ -137,6 +145,7 @@ public class EntryRhkVideoFragment extends Fragment {
                     mBackgroundHandler.post(new ImageSaver(imageReader.acquireLatestImage()));
                 }
             };
+
     private class ImageSaver implements Runnable {
         private final Image mImage;
 
@@ -237,6 +246,11 @@ public class EntryRhkVideoFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        final NavController navController = Navigation.findNavController(view);
+
+        if (getArguments() != null && rhk == null)
+            rhk = EntryRhkAttachmentFragmentArgs.fromBundle(getArguments()).getRhk();
+
         mTextureView = view.findViewById(R.id.textureVideo);
 
         imgBtnRecord = view.findViewById(R.id.imgBtnRecord);
@@ -450,6 +464,9 @@ public class EntryRhkVideoFragment extends Fragment {
 
                             try {
                                 createImageFilename();
+
+                                Attachment attachment = new Attachment(mImageFilename, 0, "photo");
+                                attachmentList.add(attachment);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
@@ -531,8 +548,8 @@ public class EntryRhkVideoFragment extends Fragment {
     }
 
     private void createImageFolder() {
-        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-        mImageFolder = new File(imageFile, "camera2Image");
+        File imageFile = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
+        mImageFolder = new File(imageFile, "Camera");
         if (!mImageFolder.exists()) {
             mImageFolder.mkdirs();
         }

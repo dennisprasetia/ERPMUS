@@ -57,7 +57,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     }
 
     public void addAttach(List<Attachment> attachments) {
-        if (attachments.size() > 0) {
+        if (attachments != null && attachments.size() > 0) {
             mAttachment.clear();
             mAttachment.addAll(attachments);
             notifyDataSetChanged();

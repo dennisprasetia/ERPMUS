@@ -17,4 +17,8 @@ public class RetrofitInstance {
         }
         return retrofit;
     }
+
+    public static RhkServiceInterface rhkService() {
+        return RetrofitInstance.getRetrofit().create(RhkServiceInterface.class);
+    }
 }

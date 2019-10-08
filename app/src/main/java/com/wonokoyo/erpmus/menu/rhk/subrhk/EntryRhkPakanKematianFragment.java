@@ -73,9 +73,14 @@ public class EntryRhkPakanKematianFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 PakanDanKematian pdk = new PakanDanKematian();
-                pdk.setPenerimaan(Integer.valueOf(etPenerimaanPakan.getText().toString()));
-                pdk.setSisa(Integer.valueOf(etSisaPakan.getText().toString()));
-                pdk.setKematian(Integer.valueOf(etAngkaKematian.getText().toString()));
+//                pdk.setPenerimaan(Integer.valueOf(etPenerimaanPakan.getText().toString()));
+//                pdk.setSisa(Integer.valueOf(etSisaPakan.getText().toString()));
+//                pdk.setKematian(Integer.valueOf(etAngkaKematian.getText().toString()));
+//                pdk.setKeterangan(etPenerimaanPakan.getText().toString());
+
+                pdk.setPenerimaan(0);
+                pdk.setSisa(0);
+                pdk.setKematian(0);
                 pdk.setKeterangan(etPenerimaanPakan.getText().toString());
 
                 rhk.setPakanDanKematian(pdk);

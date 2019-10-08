@@ -51,8 +51,10 @@ public class EntryRhkAttachmentFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final NavController navController = Navigation.findNavController(view);
 
-        if (getArguments() != null)
+        if (getArguments() != null && rhk == null)
             rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+        else
+            rhk = EntryRhkVideoFragmentArgs.fromBundle(getArguments()).getRhk();
 
         imgBtnPhoto = view.findViewById(R.id.imgBtnPhoto);
         imgBtnPhoto.setOnClickListener(new View.OnClickListener() {

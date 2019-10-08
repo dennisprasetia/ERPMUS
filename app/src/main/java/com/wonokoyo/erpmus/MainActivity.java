@@ -7,7 +7,7 @@ import androidx.navigation.Navigation;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity implements MainFragment.OnFragmentInteractionListener {
+public class MainActivity extends AppCompatActivity {
 
     NavController navController;
 
@@ -17,10 +17,5 @@ public class MainActivity extends AppCompatActivity implements MainFragment.OnFr
         setContentView(R.layout.activity_main);
 
         navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-    }
-
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
     }
 }

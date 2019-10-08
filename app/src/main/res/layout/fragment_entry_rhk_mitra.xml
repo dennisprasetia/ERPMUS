@@ -51,7 +51,7 @@
                 app:layout_constraintGuide_percent="0.85" />
 
             <ImageView
-                android:id="@+id/imgBackSolusi"
+                android:id="@+id/imgBackMitra"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="8dp"
@@ -149,18 +149,12 @@
                     android:text="@string/mitra"
                     android:textSize="22sp" />
 
-                <EditText
-                    android:id="@+id/etNamaMitra"
+                <Spinner
+                    android:id="@+id/spMitra"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginStart="11dp"
-                    android:layout_marginEnd="11dp"
-                    android:hint="@string/empty"
-                    android:importantForAutofill="no"
-                    android:inputType="text|textAutoComplete"
-                    android:labelFor="@id/llFormMitra"
-                    android:textSize="22sp"
-                    tools:targetApi="O" />
+                    android:layout_marginEnd="11dp" />
 
                 <TextView
                     android:layout_width="match_parent"

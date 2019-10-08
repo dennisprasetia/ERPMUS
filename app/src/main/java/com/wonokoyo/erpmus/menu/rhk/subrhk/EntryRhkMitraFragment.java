@@ -1,32 +1,42 @@
 package com.wonokoyo.erpmus.menu.rhk.subrhk;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
-import com.wonokoyo.erpmus.classes.Mitra;
 import com.wonokoyo.erpmus.classes.Rhk;
+import com.wonokoyo.erpmus.sqlite.DBHelper;
 
 public class EntryRhkMitraFragment extends Fragment {
 
     private Button btnBerikut;
     private ImageView imgBack;
-    private ConstraintLayout clTitle;
+    private Spinner spMitra;
 
     private OnFragmentInteractionListener mListener;
+
+    DBHelper dbHelper;
+
+    // variable argument
+    Rhk rhk = new Rhk();
 
     public EntryRhkMitraFragment() {
 
@@ -35,22 +45,26 @@ public class EntryRhkMitraFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_entry_rhk_mitra, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        dbHelper = new DBHelper(getContext());
         final NavController navController = Navigation.findNavController(view);
 
-        Mitra mitra = new Mitra();
-        mitra.setNama("Dennis");
-        mitra.setKandang(1);
-        mitra.setPopulasi(22000);
-        mitra.setUmur(40);
+        spMitra = view.findViewById(R.id.spMitra);
 
-        final Rhk rhk = new Rhk();
-        rhk.setMitra(mitra);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                final ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item,
+                        listMitra());
+                spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spMitra.setAdapter(spinnerAdapter);
+            }
+        },1000);
 
         // navigation
         btnBerikut = view.findViewById(R.id.btnBerikutMitra);
@@ -63,21 +77,31 @@ public class EntryRhkMitraFragment extends Fragment {
             }
         });
 
-        imgBack = view.findViewById(R.id.imgBackSolusi);
+        imgBack = view.findViewById(R.id.imgBackMitra);
         imgBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Navigation.findNavController(view).popBackStack();
             }
         });
-
-//        clTitle = view.findViewById(R.id.clMitra);
-//        LayoutInflater inflater = LayoutInflater.from(this.getContext());
-//        View title = inflater.inflate(R.layout.isi_sekat, null, false);
-//        clTitle.addView(title);
     }
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public String[] listMitra() {
+        int depth = dbHelper.jumlahMitra();
+        String[] list = new String[depth];
+
+        Cursor c = dbHelper.ambilSemuaMitra();
+        for (int a = 0; a < c.getCount(); a++) {
+            c.moveToNext();
+            String namaNoreg = c.getString(c.getColumnIndex("nama")) + " | " + c.getString(c.getColumnIndex("noreg"));
+
+            list[a] = namaNoreg;
+        }
+
+        return list;
     }
 }
