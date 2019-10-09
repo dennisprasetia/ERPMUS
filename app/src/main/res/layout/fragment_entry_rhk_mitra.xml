@@ -17,14 +17,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.1" />
+            app:layout_constraintGuide_percent="0.05" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_percent="0.9" />
+            app:layout_constraintGuide_percent="0.95" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/clMitra"
@@ -147,7 +147,8 @@
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:text="@string/mitra"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <Spinner
                     android:id="@+id/spMitra"
@@ -161,8 +162,25 @@
                     android:layout_height="wrap_content"
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
+                    android:text="@string/noreg"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <Spinner
+                    android:id="@+id/spNoreg"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="11dp"
+                    android:layout_marginEnd="11dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="15dp"
+                    android:paddingEnd="15dp"
                     android:text="@string/kandang"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etKandangMitra"
@@ -183,7 +201,8 @@
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:text="@string/populasi"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etPopulasiKandangMitra"
@@ -207,7 +226,8 @@
                     android:paddingStart="15dp"
                     android:paddingEnd="15dp"
                     android:text="@string/umur"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <EditText
                     android:id="@+id/etUmurPopulasiKandangMitra"

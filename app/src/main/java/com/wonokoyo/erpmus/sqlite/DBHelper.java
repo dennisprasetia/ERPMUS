@@ -63,7 +63,16 @@ public class DBHelper extends SQLiteOpenHelper {
     public Cursor ambilSemuaMitra() {
         SQLiteDatabase db = this.getReadableDatabase();
 
-        String sql = "SELECT * FROM " + TABLE_MITRA;
+        String sql = "SELECT DISTINCT nama FROM " + TABLE_MITRA;
+        Cursor c = db.rawQuery(sql, null);
+
+        return c;
+    }
+
+    public Cursor ambilNoregMitra(String nama) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + TABLE_MITRA + " WHERE nama = '" + nama + "'";
         Cursor c = db.rawQuery(sql, null);
 
         return c;
