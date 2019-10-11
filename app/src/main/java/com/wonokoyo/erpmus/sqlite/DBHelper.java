@@ -110,6 +110,14 @@ public class DBHelper extends SQLiteOpenHelper {
         } else {
             return 0;
         }
+    }
 
+    public Cursor ambilRhkAttachmentByRhk(int id_rhk) {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + TABLE_ATTACHMENT + " WHERE id_rhk = '" + id_rhk + "'";
+        Cursor c = db.rawQuery(sql, null);
+
+        return c;
     }
 }

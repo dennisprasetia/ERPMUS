@@ -2,6 +2,7 @@ package com.wonokoyo.erpmus.menu.rhk.subrhk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -20,9 +21,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
+import com.wonokoyo.erpmus.classes.Attachment;
 import com.wonokoyo.erpmus.classes.Rhk;
 import com.wonokoyo.erpmus.sqlite.DBHelper;
 import com.wonokoyo.erpmus.util.AttachmentAdapter;
+import com.wonokoyo.erpmus.util.SharedPreferenceManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class EntryRhkAttachmentFragment extends Fragment {
 
@@ -37,6 +43,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
 
     DBHelper dbHelper;
 
+    SharedPreferenceManager preferenceManager;
+
     private OnFragmentInteractionListener mListener;
 
     public EntryRhkAttachmentFragment() {
@@ -48,6 +56,9 @@ public class EntryRhkAttachmentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         dbHelper = new DBHelper(getContext());
+
+        preferenceManager = new SharedPreferenceManager(getContext());
+
         return inflater.inflate(R.layout.fragment_entry_rhk_attachment, container, false);
     }
 
@@ -93,10 +104,34 @@ public class EntryRhkAttachmentFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycleAttachment);
         AttachmentAdapter adapter = new AttachmentAdapter(getContext());
         recyclerView.setAdapter(adapter);
-        adapter.addAttach(rhk.getAttachments());
+        adapter.addAttach(getAttachmentList());
     }
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public List<Attachment> getAttachmentList() {
+        List<Attachment> list = new ArrayList<>();
+
+        Cursor c = dbHelper.ambilRhkAttachmentByRhk(preferenceManager.getSpNoRhk());
+        if (c.getCount() > 0) {
+            for (int a = 0; a < c.getCount(); a++) {
+                int type;
+                if (c.getString(c.getColumnIndex("tipe")).equalsIgnoreCase("photo")) {
+                    type = 0;
+                } else {
+                    type = 1;
+                }
+
+                Attachment attachment = new Attachment(
+                        c.getString(c.getColumnIndex("url")), type, c.getString(c.getColumnIndex("tipe"))
+                );
+
+                list.add(attachment);
+            }
+        }
+
+        return list;
     }
 }
