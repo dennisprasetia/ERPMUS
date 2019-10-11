@@ -45,6 +45,8 @@ import android.widget.Toast;
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Attachment;
 import com.wonokoyo.erpmus.classes.Rhk;
+import com.wonokoyo.erpmus.sqlite.DBHelper;
+import com.wonokoyo.erpmus.util.SharedPreferenceManager;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -63,6 +65,10 @@ public class EntryRhkVideoFragment extends Fragment {
     private List<Attachment> attachmentList;
 
     Rhk rhk;
+
+    SharedPreferenceManager preferenceManager;
+
+    DBHelper dbHelper;
 
     // variable for video
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
@@ -163,6 +169,9 @@ public class EntryRhkVideoFragment extends Fragment {
             try {
                 fileOutputStream = new FileOutputStream(mImageFilename);
                 fileOutputStream.write(bytes);
+
+                int nextId = dbHelper.ambilIdRhkAttachment() + 1;
+                dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "photo", mImageFilename);
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -192,7 +201,6 @@ public class EntryRhkVideoFragment extends Fragment {
                             Integer afState = captureResult.get(CaptureResult.CONTROL_AF_STATE);
                             if (afState == CaptureResult.CONTROL_AF_STATE_FOCUSED_LOCKED ||
                                     afState == CaptureResult.CONTROL_AF_STATE_NOT_FOCUSED_LOCKED) {
-                                Toast.makeText(getContext(), "AF Locked!", Toast.LENGTH_SHORT).show();
                                 startStillCaptureRequest();
                             }
 
@@ -241,6 +249,8 @@ public class EntryRhkVideoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        preferenceManager = new SharedPreferenceManager(getContext());
+        dbHelper = new DBHelper(getContext());
         return inflater.inflate(R.layout.fragment_entry_rhk_video, container, false);
     }
 
@@ -258,6 +268,9 @@ public class EntryRhkVideoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (isRecording) {
+                    int nextId = dbHelper.ambilIdRhkAttachment() + 1;
+                    dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "video", mVideoFilename);
+
                     isRecording = false;
                     imgBtnRecord.setImageResource(R.drawable.ic_videocam);
                     mMediaRecorder.stop();

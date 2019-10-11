@@ -21,6 +21,7 @@ import android.widget.ImageView;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Rhk;
+import com.wonokoyo.erpmus.sqlite.DBHelper;
 import com.wonokoyo.erpmus.util.AttachmentAdapter;
 
 public class EntryRhkAttachmentFragment extends Fragment {
@@ -34,6 +35,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
     // variable args
     Rhk rhk = null;
 
+    DBHelper dbHelper;
+
     private OnFragmentInteractionListener mListener;
 
     public EntryRhkAttachmentFragment() {
@@ -44,6 +47,7 @@ public class EntryRhkAttachmentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        dbHelper = new DBHelper(getContext());
         return inflater.inflate(R.layout.fragment_entry_rhk_attachment, container, false);
     }
 

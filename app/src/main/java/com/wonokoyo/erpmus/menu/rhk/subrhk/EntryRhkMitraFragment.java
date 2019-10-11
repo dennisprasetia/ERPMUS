@@ -26,6 +26,7 @@ import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Mitra;
 import com.wonokoyo.erpmus.classes.Rhk;
 import com.wonokoyo.erpmus.sqlite.DBHelper;
+import com.wonokoyo.erpmus.util.SharedPreferenceManager;
 
 public class EntryRhkMitraFragment extends Fragment {
 
@@ -41,8 +42,10 @@ public class EntryRhkMitraFragment extends Fragment {
 
     DBHelper dbHelper;
 
+    SharedPreferenceManager preferenceManager;
+
     // variable argument
-    Rhk rhk = new Rhk();
+    Rhk rhk;
 
     public EntryRhkMitraFragment() {
 
@@ -51,11 +54,15 @@ public class EntryRhkMitraFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        preferenceManager = new SharedPreferenceManager(getContext());
         return inflater.inflate(R.layout.fragment_entry_rhk_mitra, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        rhk = new Rhk();
+        rhk.setId_rhk(preferenceManager.getSpNoRhk());
+
         dbHelper = new DBHelper(getContext());
         final NavController navController = Navigation.findNavController(view);
 
@@ -140,6 +147,7 @@ public class EntryRhkMitraFragment extends Fragment {
         void onFragmentInteraction(Uri uri);
     }
 
+    // fungsi - fungsi untuk combo box (spinner) dan form rhk mitra
     public String[] listMitra() {
         Cursor c = dbHelper.ambilSemuaMitra();
         String[] list = new String[c.getCount()];

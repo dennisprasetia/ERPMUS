@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class Rhk implements Parcelable {
+    private int id_rhk;
     private Mitra mitra;
     private List<Sekat> sekats;
     private PakanDanKematian pakanDanKematian;
@@ -30,6 +31,14 @@ public class Rhk implements Parcelable {
             return new Rhk[size];
         }
     };
+
+    public int getId_rhk() {
+        return id_rhk;
+    }
+
+    public void setId_rhk(int id_rhk) {
+        this.id_rhk = id_rhk;
+    }
 
     public Mitra getMitra() {
         return mitra;

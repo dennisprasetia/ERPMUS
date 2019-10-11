@@ -19,7 +19,7 @@ public class DBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase database) {
-        String sql = "CREATE TABLE " + TABLE_ATTACHMENT + "(id integer, no_rhk text, tipe text, url text)";
+        String sql = "CREATE TABLE " + TABLE_ATTACHMENT + "(id integer, id_rhk int, tipe text, url text)";
         database.execSQL(sql);
 
         String sql2 = "CREATE TABLE " + TABLE_MITRA + "(id integer, nama text, noreg text, kandang text, populasi integer, umur integer)";
@@ -29,6 +29,17 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
 
+    }
+
+    public long insertAttachment(int id, int id_rhk, String tipe, String url) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put("id_rhk", id_rhk);
+        cv.put("tipe", tipe);
+        cv.put("url", url);
+
+        long result = db.insert(TABLE_ATTACHMENT, null, cv);
+        return result;
     }
 
     public long insertMitra(String id, String nama, String noreg, String kandang, int populasi, int umur) {
@@ -85,5 +96,20 @@ public class DBHelper extends SQLiteOpenHelper {
         Cursor c = db.rawQuery(sql, null);
 
         return c;
+    }
+
+    public int ambilIdRhkAttachment() {
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        String sql = "SELECT * FROM " + TABLE_ATTACHMENT + " ORDER BY id DESC LIMIT 1";
+        Cursor c = db.rawQuery(sql, null);
+        if (c.getCount() > 0) {
+            c.moveToLast();
+
+            return c.getInt(c.getColumnIndex("id"));
+        } else {
+            return 0;
+        }
+
     }
 }

@@ -15,6 +15,9 @@ public interface RhkServiceInterface {
     @GET(Path.GET_MITRA)
     Call<ResponseBody> getListMitra();
 
+    @GET(Path.GET_RHK)
+    Call<ResponseBody> getMaxIdRhk();
+
     @GET(Path.SAVE_RHK)
     Call<ResponseBody> saveRhk(@Query("data_rhk") String arrayJson);
 

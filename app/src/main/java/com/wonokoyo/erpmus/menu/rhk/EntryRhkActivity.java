@@ -2,27 +2,20 @@ package com.wonokoyo.erpmus.menu.rhk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.util.AttributeSet;
-import android.util.Log;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
-import com.wonokoyo.erpmus.classes.Mitra;
 import com.wonokoyo.erpmus.database.RetrofitInstance;
 import com.wonokoyo.erpmus.sqlite.DBHelper;
+import com.wonokoyo.erpmus.util.SharedPreferenceManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -32,6 +25,7 @@ import retrofit2.Response;
 public class EntryRhkActivity extends AppCompatActivity {
 
     DBHelper dbHelper = new DBHelper(this);
+    SharedPreferenceManager preferenceManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +35,8 @@ public class EntryRhkActivity extends AppCompatActivity {
 
         // ambil data mitra simpan ke lokal
         saveToDatabaseSqlite();
+        preferenceManager = new SharedPreferenceManager(this);
+        getIdRhk();
     }
 
     public void saveToDatabaseSqlite() {
@@ -76,6 +72,37 @@ public class EntryRhkActivity extends AppCompatActivity {
                                         object.getInt("umur"));
                             }
                         }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                if (t.getMessage().equalsIgnoreCase("timeout")) {
+                    Toast.makeText(EntryRhkActivity.this, "Request Timeout !", Toast.LENGTH_SHORT).show();
+                }
+
+                if (t.getMessage().contains("failed to connect")) {
+                    Toast.makeText(EntryRhkActivity.this, "Please check your connection !", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void getIdRhk() {
+        Call<ResponseBody> callMitra = RetrofitInstance.rhkService().getMaxIdRhk();
+        callMitra.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.isSuccessful()) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(response.body().string());
+                        int id = jsonObject.getInt("content");
+                        preferenceManager.saveSPInt(SharedPreferenceManager.SP_NO_RHK, id);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     } catch (IOException e) {
