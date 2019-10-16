@@ -25,13 +25,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.util.Size;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
@@ -43,8 +40,6 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
-import com.wonokoyo.erpmus.classes.Attachment;
-import com.wonokoyo.erpmus.classes.Rhk;
 import com.wonokoyo.erpmus.sqlite.DBHelper;
 import com.wonokoyo.erpmus.util.SharedPreferenceManager;
 
@@ -61,10 +56,6 @@ import java.util.Date;
 import java.util.List;
 
 public class EntryRhkVideoFragment extends Fragment {
-
-    private List<Attachment> attachmentList;
-
-    Rhk rhk;
 
     SharedPreferenceManager preferenceManager;
 
@@ -172,6 +163,8 @@ public class EntryRhkVideoFragment extends Fragment {
 
                 int nextId = dbHelper.ambilIdRhkAttachment() + 1;
                 dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "photo", mImageFilename);
+
+                Toast.makeText(getContext(), mImageFilename, Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -247,19 +240,22 @@ public class EntryRhkVideoFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        dbHelper = new DBHelper(getContext());
+
+        preferenceManager = new SharedPreferenceManager(getContext());
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        preferenceManager = new SharedPreferenceManager(getContext());
-        dbHelper = new DBHelper(getContext());
         return inflater.inflate(R.layout.fragment_entry_rhk_video, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        final NavController navController = Navigation.findNavController(view);
-
-        if (getArguments() != null && rhk == null)
-            rhk = EntryRhkAttachmentFragmentArgs.fromBundle(getArguments()).getRhk();
 
         mTextureView = view.findViewById(R.id.textureVideo);
 
@@ -477,9 +473,6 @@ public class EntryRhkVideoFragment extends Fragment {
 
                             try {
                                 createImageFilename();
-
-                                Attachment attachment = new Attachment(mImageFilename, 0, "photo");
-                                attachmentList.add(attachment);
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

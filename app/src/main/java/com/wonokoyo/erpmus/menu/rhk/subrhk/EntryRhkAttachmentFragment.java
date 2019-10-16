@@ -45,6 +45,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
 
     SharedPreferenceManager preferenceManager;
 
+    List<Attachment> attachmentList;
+
     private OnFragmentInteractionListener mListener;
 
     public EntryRhkAttachmentFragment() {
@@ -52,24 +54,30 @@ public class EntryRhkAttachmentFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
         dbHelper = new DBHelper(getContext());
 
         preferenceManager = new SharedPreferenceManager(getContext());
 
+        attachmentList = getAttachmentList();
+
+        // get argument
+        if (getArguments() != null)
+            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_entry_rhk_attachment, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         final NavController navController = Navigation.findNavController(view);
-
-        if (getArguments() != null && rhk == null)
-            rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
-        else
-            rhk = EntryRhkVideoFragmentArgs.fromBundle(getArguments()).getRhk();
 
         imgBtnPhoto = view.findViewById(R.id.imgBtnPhoto);
         imgBtnPhoto.setOnClickListener(new View.OnClickListener() {
@@ -102,9 +110,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
         });
 
         recyclerView = view.findViewById(R.id.recycleAttachment);
-        AttachmentAdapter adapter = new AttachmentAdapter(getContext());
+        AttachmentAdapter adapter = new AttachmentAdapter(getContext(), attachmentList);
         recyclerView.setAdapter(adapter);
-        adapter.addAttach(getAttachmentList());
     }
 
     public interface OnFragmentInteractionListener {
@@ -117,6 +124,7 @@ public class EntryRhkAttachmentFragment extends Fragment {
         Cursor c = dbHelper.ambilRhkAttachmentByRhk(preferenceManager.getSpNoRhk());
         if (c.getCount() > 0) {
             for (int a = 0; a < c.getCount(); a++) {
+                c.moveToNext();
                 int type;
                 if (c.getString(c.getColumnIndex("tipe")).equalsIgnoreCase("photo")) {
                     type = 0;

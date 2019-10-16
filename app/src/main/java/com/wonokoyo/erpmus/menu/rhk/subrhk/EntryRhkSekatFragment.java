@@ -47,6 +47,15 @@ public class EntryRhkSekatFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // get arguments
+        if (getArguments() != null)
+            rhk = EntryRhkSekatFragmentArgs.fromBundle(getArguments()).getRhk();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -61,10 +70,6 @@ public class EntryRhkSekatFragment extends Fragment {
         etBbRata = view.findViewById(R.id.etBbRata);
         rvSekat = view.findViewById(R.id.rvSekat);
         rvSekat.setLayoutManager(new LinearLayoutManager(getContext()));
-
-        // get arguments
-        if (getArguments() != null)
-            rhk = EntryRhkSekatFragmentArgs.fromBundle(getArguments()).getRhk();
 
         // navigation
         imgBack = view.findViewById(R.id.imgBackSekat);

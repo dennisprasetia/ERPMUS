@@ -2,6 +2,7 @@ package com.wonokoyo.erpmus.menu.rhk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.WindowManager;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class EntryRhkActivity extends AppCompatActivity {
 
     DBHelper dbHelper = new DBHelper(this);
     SharedPreferenceManager preferenceManager;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,13 +35,18 @@ public class EntryRhkActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_entry_rhk);
 
+        dialog = new ProgressDialog(this);
+
+        preferenceManager = new SharedPreferenceManager(this);
+
         // ambil data mitra simpan ke lokal
         saveToDatabaseSqlite();
-        preferenceManager = new SharedPreferenceManager(this);
-        getIdRhk();
+
+        preferenceManager.saveSPInt(SharedPreferenceManager.SP_NO_RHK, 1);
     }
 
     public void saveToDatabaseSqlite() {
+        dialog.show();
         Call<ResponseBody> callMitra = RetrofitInstance.rhkService().getListMitra();
         callMitra.enqueue(new Callback<ResponseBody>() {
             @Override
@@ -76,6 +83,8 @@ public class EntryRhkActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } finally {
+                        getIdRhk();
                     }
                 }
             }
@@ -107,6 +116,8 @@ public class EntryRhkActivity extends AppCompatActivity {
                         e.printStackTrace();
                     } catch (IOException e) {
                         e.printStackTrace();
+                    } finally {
+                        dialog.dismiss();
                     }
                 }
             }

@@ -128,7 +128,7 @@
             app:layout_constraintGuide_begin="150dp" />
 
         <CheckBox
-            android:id="@+id/checkBox"
+            android:id="@+id/cbSolusi1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -145,7 +145,7 @@
             app:layout_constraintVertical_bias="0.0" />
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/cbSolusi2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -159,11 +159,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox"
+            app:layout_constraintTop_toBottomOf="@+id/cbSolusi1"
             app:layout_constraintVertical_bias="0.008" />
 
         <CheckBox
-            android:id="@+id/checkBox3"
+            android:id="@+id/cbSolusi3"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -177,11 +177,11 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox2"
+            app:layout_constraintTop_toBottomOf="@+id/cbSolusi2"
             app:layout_constraintVertical_bias="0.0" />
 
         <CheckBox
-            android:id="@+id/checkBox4"
+            android:id="@+id/cbSolusi4"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -195,7 +195,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/checkBox3"
+            app:layout_constraintTop_toBottomOf="@+id/cbSolusi3"
             app:layout_constraintVertical_bias="0.0" />
 
         <Button

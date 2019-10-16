@@ -40,6 +40,15 @@ public class EntryRhkPakanKematianFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // get arguments
+        if (getArguments() != null)
+            rhk = EntryRhkPakanKematianFragmentArgs.fromBundle(getArguments()).getRhk();
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -55,10 +64,6 @@ public class EntryRhkPakanKematianFragment extends Fragment {
         etAngkaKematian = view.findViewById(R.id.etKematianAyam);
         etKeteranganKematian = view.findViewById(R.id.etKeteranganPakanKematian);
 
-        // get arguments
-        if (getArguments() != null)
-            rhk = EntryRhkPakanKematianFragmentArgs.fromBundle(getArguments()).getRhk();
-
         // navigation
         imgBack = view.findViewById(R.id.imgBackPakan);
         imgBack.setOnClickListener(new View.OnClickListener() {
@@ -73,15 +78,10 @@ public class EntryRhkPakanKematianFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 PakanDanKematian pdk = new PakanDanKematian();
-//                pdk.setPenerimaan(Integer.valueOf(etPenerimaanPakan.getText().toString()));
-//                pdk.setSisa(Integer.valueOf(etSisaPakan.getText().toString()));
-//                pdk.setKematian(Integer.valueOf(etAngkaKematian.getText().toString()));
-//                pdk.setKeterangan(etPenerimaanPakan.getText().toString());
-
-                pdk.setPenerimaan(0);
-                pdk.setSisa(0);
-                pdk.setKematian(0);
-                pdk.setKeterangan(etPenerimaanPakan.getText().toString());
+                pdk.setPenerimaan(Integer.valueOf(etPenerimaanPakan.getText().toString()));
+                pdk.setSisa(Integer.valueOf(etSisaPakan.getText().toString()));
+                pdk.setKematian(Integer.valueOf(etAngkaKematian.getText().toString()));
+                pdk.setKeterangan(etKeteranganKematian.getText().toString());
 
                 rhk.setPakanDanKematian(pdk);
 

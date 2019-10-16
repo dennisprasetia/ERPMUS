@@ -17,7 +17,6 @@ import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Attachment;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -51,17 +50,9 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         }
     }
 
-    public AttachmentAdapter(Context context) {
+    public AttachmentAdapter(Context context, List<Attachment> list) {
         this.context = context;
-        this.mAttachment = new ArrayList<>();
-    }
-
-    public void addAttach(List<Attachment> attachments) {
-        if (attachments != null && attachments.size() > 0) {
-            mAttachment.clear();
-            mAttachment.addAll(attachments);
-            notifyDataSetChanged();
-        }
+        this.mAttachment = list;
     }
 
     @Override
@@ -90,14 +81,16 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         switch (holder.getItemViewType()) {
             case 0:
+                ViewHolderPhoto viewHolderPhoto = (ViewHolderPhoto) holder;
                 File file = new File(attachment.getUrl());
                 Bitmap bitmap = new BitmapDrawable(context.getResources(), file.getAbsolutePath()).getBitmap();
-                ((ViewHolderPhoto) holder).iv.setImageBitmap(bitmap);
+                viewHolderPhoto.iv.setImageBitmap(bitmap);
                 break;
 
             case 1:
+                ViewHolderVideo viewHolderVideo = (ViewHolderVideo) holder;
                 Uri uri = Uri.parse(attachment.getUrl());
-                ((ViewHolderVideo) holder).vv.setVideoURI(uri);
+                viewHolderVideo.vv.setVideoURI(uri);
                 break;
         }
     }

@@ -52,9 +52,17 @@ public class EntryRhkMitraFragment extends Fragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        dbHelper = new DBHelper(getContext());
+
+        preferenceManager = new SharedPreferenceManager(getContext());
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        preferenceManager = new SharedPreferenceManager(getContext());
         return inflater.inflate(R.layout.fragment_entry_rhk_mitra, container, false);
     }
 
@@ -62,8 +70,6 @@ public class EntryRhkMitraFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         rhk = new Rhk();
         rhk.setId_rhk(preferenceManager.getSpNoRhk());
-
-        dbHelper = new DBHelper(getContext());
         final NavController navController = Navigation.findNavController(view);
 
         spMitra = view.findViewById(R.id.spMitra);
@@ -120,11 +126,17 @@ public class EntryRhkMitraFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Mitra mitra = new Mitra();
-                mitra.setNama(spMitra.getSelectedItem().toString());
-                mitra.setNoreg(spNoreg.getSelectedItem().toString());
-                mitra.setKandang(Integer.valueOf(etKandang.getText().toString()));
-                mitra.setPopulasi(Integer.valueOf(etPopulasi.getText().toString()));
-                mitra.setUmur(Integer.valueOf(etUmur.getText().toString()));
+//                mitra.setNama(spMitra.getSelectedItem().toString());
+//                mitra.setNoreg(spNoreg.getSelectedItem().toString());
+//                mitra.setKandang(Integer.valueOf(etKandang.getText().toString()));
+//                mitra.setPopulasi(Integer.valueOf(etPopulasi.getText().toString()));
+//                mitra.setUmur(Integer.valueOf(etUmur.getText().toString()));
+
+                mitra.setNama("Dennis");
+                mitra.setNoreg("212121103");
+                mitra.setKandang(3);
+                mitra.setPopulasi(30000);
+                mitra.setUmur(20);
 
                 rhk.setMitra(mitra);
 

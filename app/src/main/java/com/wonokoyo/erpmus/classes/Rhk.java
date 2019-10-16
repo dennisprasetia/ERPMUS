@@ -3,6 +3,8 @@ package com.wonokoyo.erpmus.classes;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 public class Rhk implements Parcelable {
@@ -12,6 +14,7 @@ public class Rhk implements Parcelable {
     private PakanDanKematian pakanDanKematian;
     private List<Nekropsi> nekropsies;
     private List<Attachment> attachments;
+    private List<String> listSolusi;
 
     public Rhk() {
 
@@ -82,6 +85,14 @@ public class Rhk implements Parcelable {
 
     public void addAttachment(Attachment attachment) {
         this.attachments.add(attachment);
+    }
+
+    public List<String> getListSolusi() {
+        return listSolusi;
+    }
+
+    public void setListSolusi(List<String> listSolusi) {
+        this.listSolusi = listSolusi;
     }
 
     @Override
