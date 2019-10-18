@@ -3,7 +3,6 @@
 	package="com.wonokoyo.erpmus">
 
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
 	<uses-permission android:name="android.permission.CAMERA" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -12,13 +11,14 @@
 	<uses-permission android:name="android.hardware.camera2.full" />
 
 	<application
-		android:usesCleartextTraffic="true"
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
 		android:roundIcon="@mipmap/ic_launcher_round"
 		android:supportsRtl="true"
-		android:theme="@style/Theme.Design.NoActionBar">
+		android:theme="@style/Theme.Design.NoActionBar"
+		android:usesCleartextTraffic="true">
+		<activity android:name=".CameraActivity"></activity>
 		<activity android:name=".menu.penjualan.PenjualanActivity" />
 		<activity android:name=".menu.rhk.EntryRhkActivity" />
 		<activity android:name=".MainActivity">

@@ -98,6 +98,8 @@ public class EntryRhkActivity extends AppCompatActivity {
                 if (t.getMessage().contains("failed to connect")) {
                     Toast.makeText(EntryRhkActivity.this, "Please check your connection !", Toast.LENGTH_SHORT).show();
                 }
+
+                dialog.dismiss();
             }
         });
     }
@@ -131,6 +133,8 @@ public class EntryRhkActivity extends AppCompatActivity {
                 if (t.getMessage().contains("failed to connect")) {
                     Toast.makeText(EntryRhkActivity.this, "Please check your connection !", Toast.LENGTH_SHORT).show();
                 }
+
+                dialog.dismiss();
             }
         });
     }

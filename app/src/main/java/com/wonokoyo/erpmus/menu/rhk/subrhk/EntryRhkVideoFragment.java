@@ -25,6 +25,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.os.Environment;
 import android.os.Handler;
@@ -60,6 +61,8 @@ public class EntryRhkVideoFragment extends Fragment {
     SharedPreferenceManager preferenceManager;
 
     DBHelper dbHelper;
+
+    File globalImageFile;
 
     // variable for video
     private static final int REQUEST_CAMERA_PERMISSION_RESULT = 0;
@@ -162,9 +165,9 @@ public class EntryRhkVideoFragment extends Fragment {
                 fileOutputStream.write(bytes);
 
                 int nextId = dbHelper.ambilIdRhkAttachment() + 1;
-                dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "photo", mImageFilename);
+                dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "photo", globalImageFile.getAbsolutePath());
 
-                Toast.makeText(getContext(), mImageFilename, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), globalImageFile.getAbsolutePath(), Toast.LENGTH_SHORT).show();
             } catch (IOException e) {
                 e.printStackTrace();
             } finally {
@@ -264,13 +267,16 @@ public class EntryRhkVideoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (isRecording) {
-                    int nextId = dbHelper.ambilIdRhkAttachment() + 1;
-                    dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "video", mVideoFilename);
-
                     isRecording = false;
                     imgBtnRecord.setImageResource(R.drawable.ic_videocam);
                     mMediaRecorder.stop();
                     mMediaRecorder.reset();
+
+                    int nextId = dbHelper.ambilIdRhkAttachment() + 1;
+                    dbHelper.insertAttachment(nextId, preferenceManager.getSpNoRhk(), "video", mVideoFilename);
+
+                    Toast.makeText(getContext(), mVideoFilename, Toast.LENGTH_SHORT).show();
+
                     startPreview();
                 } else {
                     checkWriteStoragePermission();
@@ -470,9 +476,8 @@ public class EntryRhkVideoFragment extends Fragment {
                         @Override
                         public void onCaptureStarted(@NonNull CameraCaptureSession session, @NonNull CaptureRequest request, long timestamp, long frameNumber) {
                             super.onCaptureStarted(session, request, timestamp, frameNumber);
-
                             try {
-                                createImageFilename();
+                                globalImageFile = createImageFilename();
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }

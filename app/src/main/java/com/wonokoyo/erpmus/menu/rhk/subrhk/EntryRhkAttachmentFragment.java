@@ -2,6 +2,7 @@ package com.wonokoyo.erpmus.menu.rhk.subrhk;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,12 +14,14 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.wonokoyo.erpmus.R;
 import com.wonokoyo.erpmus.classes.Attachment;
@@ -61,8 +64,6 @@ public class EntryRhkAttachmentFragment extends Fragment {
 
         preferenceManager = new SharedPreferenceManager(getContext());
 
-        attachmentList = getAttachmentList();
-
         // get argument
         if (getArguments() != null)
             rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
@@ -72,6 +73,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        attachmentList = getAttachmentList();
+
         return inflater.inflate(R.layout.fragment_entry_rhk_attachment, container, false);
     }
 
@@ -103,6 +106,8 @@ public class EntryRhkAttachmentFragment extends Fragment {
         btnBerikut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                rhk.setAttachments(attachmentList);
+
                 EntryRhkAttachmentFragmentDirections.ViewSolusiFragment action =
                         EntryRhkAttachmentFragmentDirections.viewSolusiFragment(rhk);
                 navController.navigate(action);
@@ -110,12 +115,24 @@ public class EntryRhkAttachmentFragment extends Fragment {
         });
 
         recyclerView = view.findViewById(R.id.recycleAttachment);
-        AttachmentAdapter adapter = new AttachmentAdapter(getContext(), attachmentList);
-        recyclerView.setAdapter(adapter);
+        final AttachmentAdapter adapter = new AttachmentAdapter(getContext(), attachmentList);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recyclerView.setAdapter(adapter);
+                Toast.makeText(getContext(), "Jumlah attachment : " + attachmentList.size(), Toast.LENGTH_SHORT).show();
+            }
+        }, 300);
     }
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     public List<Attachment> getAttachmentList() {

@@ -83,10 +83,6 @@ public class Rhk implements Parcelable {
         this.attachments = attachments;
     }
 
-    public void addAttachment(Attachment attachment) {
-        this.attachments.add(attachment);
-    }
-
     public List<String> getListSolusi() {
         return listSolusi;
     }

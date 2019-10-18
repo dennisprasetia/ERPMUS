@@ -25,6 +25,7 @@ import com.wonokoyo.erpmus.classes.Rhk;
 import com.wonokoyo.erpmus.util.EnumNekropsi;
 import com.wonokoyo.erpmus.util.NekropsiAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntryRhkNekropsiFragment extends Fragment {
@@ -49,6 +50,8 @@ public class EntryRhkNekropsiFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        listNekropsi = new ArrayList<>();
+
         // get arguments
         if (getArguments() != null)
             rhk = EntryRhkNekropsiFragmentArgs.fromBundle(getArguments()).getRhk();
@@ -65,7 +68,7 @@ public class EntryRhkNekropsiFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         final NavController navController = Navigation.findNavController(view);
 
-        listNekropsi = EnumNekropsi.listNekropsi();
+        listNekropsi.addAll(EnumNekropsi.listNekropsi());
         recyclerView = view.findViewById(R.id.recycleNekropsi);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         Handler handler = new Handler();

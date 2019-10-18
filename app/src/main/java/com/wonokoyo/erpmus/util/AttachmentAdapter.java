@@ -2,6 +2,7 @@ package com.wonokoyo.erpmus.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -82,8 +83,7 @@ public class AttachmentAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         switch (holder.getItemViewType()) {
             case 0:
                 ViewHolderPhoto viewHolderPhoto = (ViewHolderPhoto) holder;
-                File file = new File(attachment.getUrl());
-                Bitmap bitmap = new BitmapDrawable(context.getResources(), file.getAbsolutePath()).getBitmap();
+                Bitmap bitmap = BitmapFactory.decodeFile(attachment.getUrl());
                 viewHolderPhoto.iv.setImageBitmap(bitmap);
                 break;
 
